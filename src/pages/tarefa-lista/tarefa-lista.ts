@@ -109,7 +109,7 @@ export class TarefaListaPage {
           this.navCtrl.push("TarefaCamareiraPage", item)
           break;
         case "5":
-          this.navCtrl.push("TarefaDetalheManutencaoPage", item)
+          this.navCtrl.push("TarefaManutencaoPage", item)
           break;
         case "6":
           this.navCtrl.push("TarefaDetalheLavanderiaPage", item)

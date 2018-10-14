@@ -41,7 +41,8 @@ export class TarefaCamareiraPage {
     this._firebase.getServico(4).subscribe((res: any) => {
       this.servico = res;
       this.chamado.tarefas.forEach(element => {
-        let aux = this.servico.find(x => x.titulo == element.titulo)
+        let aux = this.servico.find(x => x.$key == element.servicoId)
+        if(aux)
         aux.ativo=true;
       });
       load.dismiss();
