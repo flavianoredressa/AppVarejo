@@ -42,7 +42,8 @@ export class TarefaCamareiraPage {
       this.servico = res;
       if(this.chamado.tarefas){
         this.chamado.tarefas.forEach(element => {
-          let aux = this.servico.find(x => x.titulo == element.titulo)
+          let aux = this.servico.find(x => x.$key == element.servicoId)
+          if(aux)
           aux.ativo=true;
         });
       }
