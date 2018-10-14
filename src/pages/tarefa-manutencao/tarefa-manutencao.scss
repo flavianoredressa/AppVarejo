@@ -1,0 +1,78 @@
+page-tarefa-manutencao {
+  .btnImage {
+    margin-top: 1rem;
+  }
+
+  .fundoCinza {
+    background: #C9CCFE;
+    /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#C9CCFE, #FCFCFC);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#C9CCFE, #FCFCFC);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#C9CCFE, #FCFCFC);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#C9CCFE, #FCFCFC);
+    /* Standard syntax */
+    color: #252e74
+  }
+
+  .crop {
+    height: 8rem;
+    display: flex;
+    overflow: hidden;
+    border: white solid 1px;
+    border-radius: 1rem;
+  }
+
+  .crop img {
+    width: 10rem;
+    height: 8rem;
+  }
+
+  .imagens {
+    display: inline-block;
+    position: relative;
+  }
+
+  .buttonExcluir {
+    position: absolute;
+    top: .3rem;
+    right: 1rem;
+    font-size: 3rem;
+  }
+
+  .galleryImage {
+    background-position: center;
+    background-size: cover;
+    width: 95%;
+    height: 270px;
+    position: relative;
+    margin-bottom: 10px
+  }
+
+  .image-stroke {
+    border: 1.5px dashed #fff;
+    border-radius: 5px;
+  }
+
+  .image-stroke.large {
+    width: 100px;
+    height: 100px;
+  }
+
+  .image-stroke.small {
+    height: 100px;
+  }
+
+  .icon-stroke {
+    color: white;
+    font-size: 50px;
+  }
+
+  .center-icon {
+    align-items: center;
+    justify-content: center;
+    display: inherit;
+  }
+}

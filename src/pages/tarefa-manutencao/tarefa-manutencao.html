@@ -1,0 +1,178 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Chamado </ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only color="light" class="btnQuarto">
+        {{servico.apartamento}}
+        </button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-row>
+    <ion-slides>
+      <ion-slide>
+        <ion-row>
+          <ion-segment [(ngModel)]="tipo" color="light">
+            <ion-segment-button value="eletrica">
+              Elétrica
+            </ion-segment-button>
+            <ion-segment-button value="hidraulica" id="notification-button">
+              Hidraulica
+              <!-- <ion-badge id="notifications-badge" color='danger' *ngIf="visto > 0"> {{visto}}</ion-badge> -->
+            </ion-segment-button>
+            <ion-segment-button value="outras" id="notification-button">
+              Outras
+              <!-- <ion-badge id="notifications-badge" color='danger' *ngIf="visto > 0"> {{visto}}</ion-badge> -->
+            </ion-segment-button>
+          </ion-segment>
+        </ion-row>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-12>
+              <div [ngSwitch]="tipo">
+                <ion-list no-margin *ngSwitchCase="'eletrica'">
+                  <ion-list>
+                    <div *ngFor="let item of servico">
+                      <ion-item *ngIf="item.tipoServico==1" class="transparent">
+                        <ion-label class="branco">{{item.titulo}}</ion-label>
+                        <ion-toggle [(ngModel)]="item.ativo" color='primary'></ion-toggle>
+                      </ion-item>
+                    </div>
+                  </ion-list>
+                </ion-list>
+                <ion-list no-margin *ngSwitchCase="'hidraulica'">
+                  <ion-list transparent>
+                    <div *ngFor="let item of servico">
+                      <ion-item *ngIf="item.tipoServico==2" class="transparent">
+                        <ion-label class="branco">{{item.titulo}}</ion-label>
+                        <ion-toggle [(ngModel)]="item.ativo" color='primary'></ion-toggle>
+                      </ion-item>
+                    </div>
+                  </ion-list>
+                </ion-list>
+                <ion-list no-margin *ngSwitchCase="'outras'">
+                  <ion-list transparent>
+                    <div *ngFor="let item of servico">
+                      <ion-item *ngIf="item.tipoServico==3" class="transparent">
+                        <ion-label class="branco">{{item.titulo}}</ion-label>
+                        <ion-toggle [(ngModel)]="item.ativo" color='primary'></ion-toggle>
+                      </ion-item>
+                    </div>
+                  </ion-list>
+                  <ion-label class="branco">Outra</ion-label>
+                  <ion-item no-padding class="transparent">
+                    <ion-textarea rows="5" type="text" class="branco" [(ngModel)]="chamado.outra">
+                    </ion-textarea>
+                  </ion-item>
+                </ion-list>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-slide>
+      <ion-slide>
+        <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
+        <ion-row>
+          <ion-label class="branco">Descrição Geral</ion-label>
+          <ion-item no-padding class="transparent">
+            <ion-textarea class="transparent" rows="5" text-uppercase type="text" class="branco" [(ngModel)]="chamado.descricao">
+            </ion-textarea>
+          </ion-item>
+        </ion-row>
+        <p margin-top padding-left class="branco">Toque para adicionar imagens</p>
+        <ion-row padding>
+          <ion-col col-6 padding class="image-stroke large center-icon galleryImage custHei2" #image1 (tap)="getImage(0)"
+            (press)="removeImage(0, image1)" [ngStyle]="{ 'background-image': 'url(' + imagens[0] + ')'}">
+            <ion-icon *ngIf="!imagens[0]" class="icon-stroke" name="ios-image"></ion-icon>
+          </ion-col>
+          <ion-col col-6 padding class="image-stroke large center-icon galleryImage custHei2" #image2 (tap)="getImage(2)"
+            (press)="removeImage(1, image2)" [ngStyle]="{ 'background-image': 'url(' + imagens[1] + ')'}">
+            <ion-icon *ngIf="!imagens[1]" class="icon-stroke" name="ios-image"></ion-icon>
+          </ion-col>
+          <ion-col col-6 padding class="image-stroke large center-icon galleryImage custHei2" #image3 (tap)="getImage(3)"
+            (press)="removeImage(2, image3)" [ngStyle]="{ 'background-image': 'url(' + imagens[2] + ')'}">
+            <ion-icon *ngIf="!imagens[2]" class="icon-stroke" name="ios-image"></ion-icon>
+          </ion-col>
+          <ion-col col-6 padding class="image-stroke large center-icon galleryImage custHei2" #image4 (tap)="getImage(4)"
+            (press)="removeImage(0, image4)" [ngStyle]="{ 'background-image': 'url(' + imagens[3] + ')'}">
+            <ion-icon *ngIf="!imagens[3]" class="icon-stroke" name="ios-image"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-slide>
+      <ion-slide>
+        <p class="branco">Serviços</p>
+        <ion-card *ngIf="ativos(1)" class="transparent">
+          <ion-card-content>
+            <p class="Top azul">Elétrico</p>
+            <div *ngFor="let item of servico">
+              <ion-item *ngIf="item.tipoServico==1 && item.ativo" class="transparent">
+                <ion-label>{{item.titulo}}</ion-label>
+              </ion-item>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card *ngIf="ativos(2)" class="transparent">
+          <ion-card-content>
+            <p class="Top azul">Hidraulico</p>
+            <div *ngFor="let item of servico">
+              <ion-item *ngIf="item.tipoServico==2 && item.ativo" class="transparent">
+                <ion-label>{{item.titulo}}</ion-label>
+              </ion-item>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card *ngIf="ativos(3) ||  (chamado.outra && chamado.outra!='' )" class="transparent">
+          <ion-card-content>
+            <p class="Top azul">Outros</p>
+            <div *ngFor="let item of servico">
+              <ion-item *ngIf="item.tipoServico==3 && item.ativo" class="transparent">
+                <ion-label>{{item.titulo}}</ion-label>
+              </ion-item>
+            </div>
+            <p text-left *ngIf="(chamado.outra && chamado.outra!='' )">
+              <font>Outra: {{chamado.outra}}</font>
+            </p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-row>
+          <ion-row col-12 style="background-color:transparent; margin-top:1rem" *ngIf="imagens.length < 4">
+            <ion-slides slidesPerView="3">
+              <ion-slide #slide *ngFor="let item of imagens">
+                <div class="imagens crop">
+                  <img [src]="item" />
+                </div>
+              </ion-slide>
+            </ion-slides>
+          </ion-row>
+          <ion-row col-12 style="background-color:transparent; margin-top:1rem" *ngIf="imagens.length >= 3">
+            <ion-slides slidesPerView="3">
+              <ion-slide #slide *ngFor="let item of imagens">
+                <div class="imagens crop">
+                  <img [src]="item" />
+                </div>
+              </ion-slide>
+            </ion-slides>
+          </ion-row>
+        </ion-row>
+
+        <!-- <div padding>
+          <button ion-button block type="button" (click)="enviar()">Salvar</button>
+        </div> -->
+      </ion-slide>
+    </ion-slides>
+  </ion-row>
+</ion-content>
+<ion-footer>
+  <ion-toolbar class="transparent">
+    <ion-item class="transparent" col-12 no-lines>
+      <div ion-button small item-start outline round *ngIf="slides && slides._activeIndex != 0 " (click)="ControlSlide(2)"
+        color="secondary">Anterior</div>
+      <div ion-button small item-end button-clear-outline round *ngIf="slides && slides._activeIndex <2 && verifica()"
+        (click)="ControlSlide(1)" color="primary">Próximo</div>
+      <div ion-button small item-end color="primary" round *ngIf="slides && slides._activeIndex ==2" (click)="enviar()">Salvar</div>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Tarefas</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <div *ngFor="let item of listaTarefa" no-lines class="transparent" (click)="OpenDetalhes(item)">
+      <ion-card [ngClass]="{'cardCustom-2':item.status == 1,'cardCustom-1':item.status == 2}" >
+        <ion-row>
+          <ion-item class="transparent">
+            <h2 class="branco">Quarto nº {{item.apartamento}}</h2>
+            <h2 class="cinza" *ngIf="item.tipo == 4">Camareira</h2>
+            <h2 class="cinza" *ngIf="item.tipo == 5">Manutenção</h2>
+            <h2 class="cinza" *ngIf="item.tipo == 6">Lavanderia</h2>
+            <h2 class="cinza" *ngIf="item.tipo == 7">Enfermaria</h2>
+            <circle-progress item-end no-padding no-margin [percent]="item.porcentagem" [titleFontSize]="12"></circle-progress>
+            <!-- <circle-progress item-end no-padding no-margin [percent]="33" [titleFontSize]="12"></circle-progress> -->
+          </ion-item>
+        </ion-row>
+      </ion-card>
+      <!-- <ion-card class="cardCustom-1"*ngIf="item.status == 2">
+          <ion-row>
+            <ion-item class="transparent">
+              <h2 class="branco">Quarto nº {{item.apartamento}}</h2>
+              <h2 class="cinza" *ngIf="item.tipo == 4">Camareira</h2>
+              <h2 class="cinza" *ngIf="item.tipo == 5">Manutenção</h2>
+              <h2 class="cinza" *ngIf="item.tipo == 6">Lavanderia</h2>
+              <h2 class="cinza" *ngIf="item.tipo == 7">Enfermaria</h2>
+              <circle-progress item-end no-padding no-margin [percent]="VerificarPorcentagem(item)" [titleFontSize]="12"></circle-progress>
+            </ion-item>
+          </ion-row>
+        </ion-card>
+        <ion-card class="cardCustom-3"*ngIf="item.status == 3">
+            <ion-row>
+              <ion-item class="transparent">
+                <h2 class="branco">Quarto nº {{item.apartamento}}</h2>
+                <h2 class="cinza" *ngIf="item.tipo == 4">Camareira</h2>
+                <h2 class="cinza" *ngIf="item.tipo == 5">Manutenção</h2>
+                <h2 class="cinza" *ngIf="item.tipo == 6">Lavanderia</h2>
+                <h2 class="cinza" *ngIf="item.tipo == 7">Enfermaria</h2>
+                <circle-progress item-end no-padding no-margin [percent]="VerificarPorcentagem(item)" [titleFontSize]="12"></circle-progress>
+              </ion-item>
+            </ion-row>
+          </ion-card> -->
+    </div>
+  </ion-list>
+  <ion-fab right bottom>
+    <button ion-fab color="primary">
+      <ion-icon name="md-add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="OpenPage('TarefaCamareiraPage')">
+        <img src="assets/imgs/camareira.svg" class="sinal">
+      </button>
+      <button ion-fab (click)="OpenPage('TarefaManutencaoPage')">
+        <img src="assets/imgs/manutencao.svg" class="sinal">
+      </button>
+      <button ion-fab (click)="OpenPage('TarefaLavanderiaPage')">
+        <img src="assets/imgs/lavanderia.svg" class="sinal">
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+
+</ion-content>

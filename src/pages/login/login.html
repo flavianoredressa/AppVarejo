@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+    <!-- <ion-buttons class="" >
+      <button (tap)="back()" ion-button >
+        <ion-icon class="branco iconTop" name="md-arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons> -->
+  </ion-navbar>
+</ion-header>
+<div class="pageLoader" *ngIf='Load'>
+</div>
+<ion-slides pager="false" autoplay="2000" class="slide-zoom" loop="true" speed="1500" effect="fade">
+<ion-slide class="slide-background swiper-no-swiping" *ngFor="let background of backgrounds" [ngStyle]="{'background-image': 'url(' + background +')'}">
+</ion-slide>
+</ion-slides>
+<div class="login-container">
+<img class="logo" *ngIf='!Load' src="assets/imgs/logo.png" />
+<div class="lds-gear" *ngIf='Load'>
+  <img class="" src="assets/imgs/logo.png" />
+</div>
+<ion-item>
+  <ion-input type="text"(keyup)="mascara(1)" placeholder="CPF" [(ngModel)]='cpf'></ion-input>
+</ion-item>
+<ion-item>
+  <ion-input type="password" placeholder="Senha" [(ngModel)]='senha'></ion-input>
+</ion-item>
+<button ion-button margin-top block round outline color="secondary" [disabled]="Load" (click)="Logar()">ENTRAR</button>
+<button ion-button margin-top block round outline color="primary" [disabled]="Load" (click)="Cadastrar()">CADASTRAR</button>
+<p (click)="ResetSenha()" >
+  <strong>Recuperar senha?</strong>
+</p>
+</div>

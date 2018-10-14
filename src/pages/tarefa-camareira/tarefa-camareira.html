@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Serviço Camareira</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="light" class="btnQuarto">
+        {{servico.apartamento}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-row>
+    <ion-slides>
+      <ion-slide>
+        <p class="branco" no-margin>Serviços</p>
+        <ion-slide>
+          <ion-list>
+            <ion-item *ngFor="let item of servico" class="transparent">
+              <ion-label class="branco">{{item.titulo}}</ion-label>
+              <ion-toggle [(ngModel)]="item.ativo" color='primary'></ion-toggle>
+            </ion-item>
+          </ion-list>
+        </ion-slide>
+      </ion-slide>
+      <ion-slide>
+        <p class="branco" no-margin>Descrição</p>
+        <ion-slide>
+          <ion-row>
+            <ion-item no-lines class="transparent">
+              <ion-textarea type="text" rows="5" [(ngModel)]="chamado.descricao" class="branco" text-uppercase></ion-textarea>
+            </ion-item>
+          </ion-row>
+        </ion-slide>
+      </ion-slide>
+      <ion-slide>
+        <ion-item col-12 no-margin no-padding no-lines class="transparent">
+          <ion-label class="branco">Urgente</ion-label>
+          <ion-toggle [(ngModel)]="chamado.urgente" color='roxo'></ion-toggle>
+        </ion-item>
+        <ion-list>
+          <p *ngIf="chamado.quarto || chamado.qtdCamaCasal || qtdCamaSolteiro">Configuração do Quarto</p>
+          <ion-item *ngIf="chamado.quarto" class="transparent">
+            <ion-label class="branco">Quarto nº {{chamado.quarto}}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="chamado.qtdCamaCasal" class="transparent">
+            <ion-label class="branco">{{chamado.qtdCamaCasal}} - Cama de Casal</ion-label>
+          </ion-item>
+          <ion-item *ngIf="chamado.qtdCamaSolteiro" class="transparent">
+            <ion-label class="branco">{{chamado.qtdCamaSolteiro}} - Cama solteiro </ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-list>
+          <div *ngFor="let item of servico">
+            <ion-item *ngIf="item.ativo" class="transparent">
+              <ion-icon name="checkbox-outline" class="verde"></ion-icon>
+              <font icon-end class="branco">{{item.titulo}}</font>
+            </ion-item>
+          </div>
+        </ion-list>
+        <div *ngIf="chamado.descricao">
+          <div>
+            <p class="branco" no-margin>Descrição</p>
+          </div>
+          <ion-item no-lines class="transparent item-textarea">
+            <ion-textarea disabled="true" type="text" rows="2" [(ngModel)]="chamado.descricao" class="text-area"
+              text-uppercase></ion-textarea>
+          </ion-item>
+        </div>
+        <div>
+          <button ion-button block type="button" (click)="enviar()">Salvar</button>
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </ion-row>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-item class="transparent" col-12 no-lines>
+      <div ion-button small item-start outline round color="secondary" *ngIf="slides._activeIndex != 0" (click)="ControlSlide(2)">Voltar</div>
+      <div ion-button small item-end round *ngIf="slides && slides._activeIndex < 2" (click)="ControlSlide(1)">Próximo</div>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

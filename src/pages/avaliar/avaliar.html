@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Avaliar</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <h4 text-center margin>Por favor Avalie nossos serviços</h4>
+    <ion-card>
+      <ion-card-header text-center>
+        Serviço de Camareira - (Nota: {{nota.camareira}})
+      </ion-card-header>
+      <ion-card-content>
+        <ion-range step="1" min="0" max="5" snaps="true" pin="true" color="secondary" [(ngModel)]="nota.camareira">
+          <ion-icon range-left small name="ios-star" class="yellow"></ion-icon>
+          <ion-icon range-right name="ios-star" class="yellow"></ion-icon>
+        </ion-range>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header text-center>
+        Serviço de Lavanderia - (Nota: {{nota.lavanderia}})
+      </ion-card-header>
+      <ion-card-content>
+        <ion-range step="1" min="0" max="5" snaps="true" pin="true" color="secondary" [(ngModel)]="nota.lavanderia">
+          <ion-icon range-left small name="ios-star" class="yellow"></ion-icon>
+          <ion-icon range-right name="ios-star" class="yellow"></ion-icon>
+        </ion-range>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header text-center>
+        Serviço de Manutenção - (Nota: {{nota.manutencao}})
+      </ion-card-header>
+      <ion-card-content>
+        <ion-range step="1" min="0" max="5" snaps="true" pin="true" color="secondary" [(ngModel)]="nota.manutencao">
+          <ion-icon range-left small name="ios-star" class="yellow"></ion-icon>
+          <ion-icon range-right name="ios-star" class="yellow"></ion-icon>
+        </ion-range>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header text-center>
+        Serviço de Enfermagem - (Nota: {{nota.enfermagem}})
+      </ion-card-header>
+      <ion-card-content>
+        <ion-range step="1" min="0" max="5" snaps="true" pin="true" color="secondary" [(ngModel)]="nota.enfermagem">
+          <ion-icon range-left small name="ios-star" class="yellow"></ion-icon>
+          <ion-icon range-right name="ios-star" class="yellow"></ion-icon>
+        </ion-range>
+      </ion-card-content>
+    </ion-card>
+    <ion-row>
+        <button block ion-button outline color="secondary" >Avaliar</button>
+    </ion-row>
+</ion-content>

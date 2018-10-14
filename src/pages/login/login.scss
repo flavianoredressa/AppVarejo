@@ -1,0 +1,73 @@
+page-login {
+    .scroll-content {
+        margin-top: 0 !important;
+        margin-bottom: 0!important
+      }
+      .logo {
+        margin-top: 3rem;
+        width: 100%;
+        height: auto;
+      }
+    
+      .toolbar-background  {
+        background: transparent !important;
+        border-width: 0 !important;
+      }
+      .header-ios .toolbar-ios:last-child .toolbar-background-ios{
+        border-width: 0 ;
+      }
+      .bar-button-default-ios, .bar-button-default.bar-button-ios-default, .bar-button-clear-ios-default {
+        background-color: #00A2BE;
+        padding: 1.5rem;
+    }
+    .header-md::after,{
+      width: 0;
+    }
+    .bar-button-default-md, .bar-button-default.bar-button-md-default, .bar-button-clear-md-default {
+      background-color: #00A2BE;
+      padding: 1.5rem;
+    }
+      span {
+        color: white;
+      }
+      .slide-background {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-color: transparent;
+        height: 100vh;
+      }
+      .slide-zoom {
+       // background: rgba(32, 32, 32, 0.2) !important;
+        height: 100vh;
+      }
+      ion-slides {
+        width: 100%;
+        height: 100vh;
+      }
+      ion-item {
+        color: white !important;
+        padding-left: 10px !important;
+        margin-bottom: 10px;
+        background-color: transparent !important;
+        font-size: 0.9em;
+      }
+      ::-webkit-input-placeholder {
+        color: white !important;
+      }
+      .login-container {
+        color: white;
+        position: absolute;
+        top: 0;
+        padding: 10vw;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        z-index: 2;
+       // background: rgba(0, 0, 0, 0.5) !important;
+      }
+      ion-button {
+        opacity: 0.8;
+      }
+}

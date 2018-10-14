@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Tarefa Detalhe</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <div class="Bar">
+    <div [ngStyle]="{'width.%':width}" class="Progress"></div>
+  </div>
+  <ion-label>{{chamado.apartamento}}</ion-label>
+  <div *ngFor="let item of chamado.tarefas">
+    <ion-item>
+      <ion-label>{{item.titulo}}</ion-label>
+      <ion-checkbox [(ngModel)]="item.feito" (ionChange)="check()" color="secondary"></ion-checkbox>
+    </ion-item>
+  </div>
+  <button ion-button block margin-top (tap)="enviar()" color="secondary"> Concluir </button>
+</ion-content>

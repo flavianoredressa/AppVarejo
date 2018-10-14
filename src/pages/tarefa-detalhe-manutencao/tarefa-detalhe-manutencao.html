@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Tarefa Detalhe</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <div class="Bar">
+    <div [ngStyle]="{'width.%':width}" class="Progress"></div>
+  </div>
+  <ion-item *ngFor="let t of Tarefas">
+    <ion-label>{{t.nome}}</ion-label>
+    <ion-checkbox (click)="check(t)" color="secondary"></ion-checkbox>
+  </ion-item>
+  <button ion-button block margin-top *ngIf="verifcaTarefa()" color="secondary" > Concluir </button>
+</ion-content>
