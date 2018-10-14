@@ -6,7 +6,6 @@ import { ToastProvider } from '../../providers/toast/toast';
 import { CameraProvider } from '../../providers/camera/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Tarefa } from '../../models/Tarefa';
-import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
