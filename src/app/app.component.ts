@@ -10,8 +10,8 @@ import { TabsPage } from '../pages/tabs/tabs';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = TabsPage;
-  // rootPage:any = "LoginPage";
+  // rootPage: any = TabsPage;
+  rootPage:any = "LoginPage";
   constructor(
     private platform: Platform,
     private storage: Storage,
@@ -22,8 +22,8 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
       storage.get("usuario").then(res => {
-        if (res == null) {
-          this.rootPage = "LoginPage";
+        if (res != null) {
+          this.rootPage = TabsPage;
         }
       })
     });

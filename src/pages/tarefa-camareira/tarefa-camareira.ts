@@ -25,7 +25,7 @@ export class TarefaCamareiraPage {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public navParams: NavParams) {
-    if (this.navParams.data != null) {
+    if (this.navParams.data != null && this.navParams.data.tarefas) {
       this.chamado = this.navParams.data;
       this.editando = true;
     }
@@ -78,7 +78,7 @@ export class TarefaCamareiraPage {
               this.AdicionarNumeroQuarto()
             }
             else {
-              this.servico.apartamento = data.quarto
+              this.chamado.apartamento = data.quarto
             }
           }
         }
@@ -126,7 +126,7 @@ export class TarefaCamareiraPage {
         })
       }
       else {
-        this.chamado.tipo = "4";
+        this.chamado.tipo = 4;
         this.chamado.user = res.$key;
         this.chamado.status = "1";
         this.chamado.datacadastro = new Date()

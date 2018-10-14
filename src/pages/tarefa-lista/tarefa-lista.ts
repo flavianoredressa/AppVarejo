@@ -34,7 +34,7 @@ export class TarefaListaPage {
       if (res) {
         this.usuario = res;
         if (res.tipo == 4) {
-          this._firebase.getAllFilter('chamado', "tipo", "4")
+          this._firebase.getAllFilter('chamado', "tipo", res.tipo)
             .subscribe((res: any) => {
               this.ordenacao(res)
               load.dismiss()
