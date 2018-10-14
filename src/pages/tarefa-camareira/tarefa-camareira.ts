@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { IonicPage, NavController, Slides, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, Slides, NavParams, AlertController, LoadingController, ViewController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { ToastProvider } from '../../providers/toast/toast';
@@ -18,6 +18,7 @@ export class TarefaCamareiraPage {
   constructor(
     public navCtrl: NavController,
     public _toast: ToastProvider,
+    public view: ViewController,
     public _firebase: FirebaseProvider,
     public storage: Storage,
     public alertCtrl: AlertController,
@@ -52,7 +53,7 @@ export class TarefaCamareiraPage {
         {
           text: 'Cancelar',
           handler: data => {
-            this.navCtrl.setRoot(TabsPage)
+           this.view.dismiss()
           }
         },
         {
@@ -108,7 +109,7 @@ export class TarefaCamareiraPage {
       });
       this._firebase.save("chamado", this.chamado).then(res => {
         load.dismiss();
-        this.navCtrl.setRoot(TabsPage)
+       this.view.dismiss()
       })
     })
   }

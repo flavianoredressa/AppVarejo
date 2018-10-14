@@ -32,19 +32,20 @@ export class TarefaListaPage {
     load.present()
     this.storage.get("usuario").then(res => {
       this.usuario = res;
-
       if (res.tipo == 4) {
         this._firebase.getAllFilter('chamado', "tipo", "4")
           .subscribe((res: any) => {
             this.ordenacao(res)
+            load.dismiss()
           })
       }
       else
         this._firebase.getAll('chamado')
           .subscribe((res: any) => {
             this.ordenacao(res)
+            load.dismiss()
           })
-      load.dismiss()
+     
     })
   }
   ordenacao(res) {
