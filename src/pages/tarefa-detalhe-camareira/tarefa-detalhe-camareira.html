@@ -1,18 +1,23 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Tarefa Detalhe</ion-title>
+    <ion-title>Serviço Camareira</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="light" class="btnQuarto">
+        {{chamado.apartamento}}
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
   <div class="Bar">
     <div [ngStyle]="{'width.%':width}" class="Progress"></div>
   </div>
-  <ion-label>{{chamado.apartamento}}</ion-label>
   <div *ngFor="let item of chamado.tarefas">
     <ion-item>
       <ion-label>{{item.titulo}}</ion-label>
-      <ion-checkbox [(ngModel)]="item.feito" (ionChange)="check()" color="secondary"></ion-checkbox>
+      <ion-checkbox [(ngModel)]="item.feito" (ngModelChange)="enviar()" color="secondary"></ion-checkbox>
     </ion-item>
   </div>
-  <button ion-button block margin-top (tap)="enviar()" color="secondary"> Concluir </button>
+  <button ion-button block margin-top [disabled]="chamado && chamado.tarefas.length != taferasFeita" (tap)="concluir()"
+    color="secondary"> Concluir </button>
 </ion-content>
