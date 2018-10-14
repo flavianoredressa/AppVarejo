@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { TarefaManutencaoPage } from './tarefa-manutencao';
+import { MapaPage } from './mapa';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 
 @NgModule({
   declarations: [
-    TarefaManutencaoPage,
+    MapaPage,
   ],
   imports: [
     IonicImageViewerModule,
-    IonicPageModule.forChild(TarefaManutencaoPage),
+    IonicPageModule.forChild(MapaPage),
   ],
 })
-export class TarefaManutencaoPageModule {}
+export class MapaPageModule {}

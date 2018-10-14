@@ -20,6 +20,7 @@ import { SocialSharing  } from "@ionic-native/social-sharing";
 import { AppVersion } from '@ionic-native/app-version';
 import { CameraProvider } from '../providers/camera/camera';
 import { HelperProvider } from '../providers/helper/helper';
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 import * as firebase from 'firebase';
 import { AngularFireStorage, AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireModule } from 'angularfire2';
@@ -53,6 +54,7 @@ import { ToastProvider } from '../providers/toast/toast';
     TabsPage
   ],
   imports: [
+    IonicImageViewerModule,
     BrowserModule,
     HttpClientModule,
     AngularFireModule.initializeApp(config),

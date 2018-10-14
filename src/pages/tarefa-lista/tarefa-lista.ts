@@ -31,20 +31,22 @@ export class TarefaListaPage {
     });
     load.present()
     this.storage.get("usuario").then(res => {
-      this.usuario = res;
-
-      if (res.tipo == 4) {
-        this._firebase.getAllFilter('chamado', "tipo", "4")
-          .subscribe((res: any) => {
-            this.ordenacao(res)
-          })
+      if (res) {
+        this.usuario = res;
+        if (res.tipo == 4) {
+          this._firebase.getAllFilter('chamado', "tipo", res.tipo)
+            .subscribe((res: any) => {
+              this.ordenacao(res)
+              load.dismiss()
+            })
+        }
+        else
+          this._firebase.getAll('chamado')
+            .subscribe((res: any) => {
+              this.ordenacao(res)
+              load.dismiss()
+            })
       }
-      else
-        this._firebase.getAll('chamado')
-          .subscribe((res: any) => {
-            this.ordenacao(res)
-          })
-      load.dismiss()
     })
   }
   ordenacao(res) {
@@ -102,20 +104,39 @@ export class TarefaListaPage {
     return tarefaFeita / total * 100
   }
   openDetalhes(item) {
-    switch (item.tipo) {
-      case "4":
-        this.navCtrl.push("TarefaDetalheCamareiraPage", item)
-        break;
-      case "5":
-        this.navCtrl.push("TarefaDetalheManutencaoPage", item)
-        break;
-      case "6":
-        this.navCtrl.push("TarefaDetalheLavanderiaPage", item)
-        break;
-      case "7":
-        this.navCtrl.push("TarefaDetalheEnfermagemPage", item)
-        break;
+    if (this.usuario.tipo < 3) {
+      switch (item.tipo + "") {
+        case "4":
+          this.navCtrl.push("TarefaCamareiraPage", item)
+          break;
+        case "5":
+          this.navCtrl.push("TarefaManutencaoPage", item)
+          break;
+        case "6":
+          this.navCtrl.push("TarefaDetalheLavanderiaPage", item)
+          break;
+        case "7":
+          this.navCtrl.push("TarefaDetalheEnfermagemPage", item)
+          break;
+      }
     }
+    else {
+      switch (item.tipo + "") {
+        case "4":
+          this.navCtrl.push("TarefaDetalheCamareiraPage", item)
+          break;
+        case "5":
+          this.navCtrl.push("TarefaDetalheManutencaoPage", item)
+          break;
+        case "6":
+          this.navCtrl.push("TarefaDetalheLavanderiaPage", item)
+          break;
+        case "7":
+          this.navCtrl.push("TarefaDetalheEnfermagemPage", item)
+          break;
+      }
+    }
+
   }
   openPage(item) {
     this.navCtrl.push(item)

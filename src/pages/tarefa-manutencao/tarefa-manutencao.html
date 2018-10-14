@@ -2,10 +2,10 @@
   <ion-navbar>
     <ion-title>Chamado </ion-title>
     <ion-buttons end>
-        <button ion-button icon-only color="light" class="btnQuarto">
-        {{servico.apartamento}}
-        </button>
-      </ion-buttons>
+      <button ion-button icon-only color="light" class="btnQuarto">
+        {{chamado.apartamento}}
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
@@ -70,7 +70,6 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-
       </ion-slide>
       <ion-slide>
         <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />
@@ -102,47 +101,54 @@
         </ion-row>
       </ion-slide>
       <ion-slide>
-        <p class="branco">Serviços</p>
-        <ion-card *ngIf="ativos(1)" class="transparent">
-          <ion-card-content>
-            <p class="Top azul">Elétrico</p>
-            <div *ngFor="let item of servico">
-              <ion-item *ngIf="item.tipoServico==1 && item.ativo" class="transparent">
-                <ion-label>{{item.titulo}}</ion-label>
-              </ion-item>
-            </div>
-          </ion-card-content>
-        </ion-card>
-        <ion-card *ngIf="ativos(2)" class="transparent">
-          <ion-card-content>
-            <p class="Top azul">Hidraulico</p>
-            <div *ngFor="let item of servico">
-              <ion-item *ngIf="item.tipoServico==2 && item.ativo" class="transparent">
-                <ion-label>{{item.titulo}}</ion-label>
-              </ion-item>
-            </div>
-          </ion-card-content>
-        </ion-card>
-        <ion-card *ngIf="ativos(3) ||  (chamado.outra && chamado.outra!='' )" class="transparent">
-          <ion-card-content>
-            <p class="Top azul">Outros</p>
-            <div *ngFor="let item of servico">
-              <ion-item *ngIf="item.tipoServico==3 && item.ativo" class="transparent">
-                <ion-label>{{item.titulo}}</ion-label>
-              </ion-item>
-            </div>
-            <p text-left *ngIf="(chamado.outra && chamado.outra!='' )">
-              <font>Outra: {{chamado.outra}}</font>
-            </p>
-          </ion-card-content>
-        </ion-card>
+        <div *ngIf="ativos(1)" class="transparent">
+          <p class="branco" init>Elétrico</p>
+          <div *ngFor="let item of servico">
+            <ion-item *ngIf="item.tipoServico==1 && item.ativo" class="transparent">
+              <ion-icon name="checkbox-outline" class="verde"></ion-icon>
+              <font icon-end class="branco">{{item.titulo}}</font>
+            </ion-item>
+          </div>
+        </div>
+        <div *ngIf="ativos(2)" class="transparent">
+          <p class="branco" end>Hidraulico</p>
+          <div *ngFor="let item of servico">
+            <ion-item *ngIf="item.tipoServico==2 && item.ativo" class="transparent">
+              <ion-icon name="checkbox-outline" class="verde"></ion-icon>
+              <font icon-end class="branco">{{item.titulo}}</font>
+            </ion-item>
+          </div>
+        </div>
+        <div *ngIf="ativos(3) ||  (chamado.outra && chamado.outra!='' )" class="transparent">
+          <p class="branco">Outros</p>
+          <div *ngFor="let item of servico">
+            <ion-item *ngIf="item.tipoServico==3 && item.ativo" class="transparent">
+              <ion-icon name="checkbox-outline" class="verde"></ion-icon>
+              <font icon-end class="branco">{{item.titulo}}</font>
+            </ion-item>
+          </div>
+          <p text-left class="branco" *ngIf="(chamado.outra && chamado.outra!='' )">
+            <font>Outra: {{chamado.outra}}</font>
+          </p>
+        </div>
+        <!-- <p class="branco">
+          <font>Eletrico</font>
+        </p>
+        <ion-list>
+          <div *ngFor="let item of servico">
+            <ion-item *ngIf="item.ativo" class="transparent">
+              <ion-icon name="checkbox-outline" class="verde"></ion-icon>
+              <font icon-end class="branco">{{item.titulo}}</font>
+            </ion-item>
+          </div>
+        </ion-list> -->
 
         <ion-row>
-          <ion-row col-12 style="background-color:transparent; margin-top:1rem" *ngIf="imagens.length < 4">
+          <ion-row col-12 style="background-color:transparent; margin-top:1rem" *ngIf="imagens.length < 3">
             <ion-slides slidesPerView="3">
               <ion-slide #slide *ngFor="let item of imagens">
                 <div class="imagens crop">
-                  <img [src]="item" />
+                  <img imageViewer [src]="item" />
                 </div>
               </ion-slide>
             </ion-slides>
@@ -151,16 +157,12 @@
             <ion-slides slidesPerView="3">
               <ion-slide #slide *ngFor="let item of imagens">
                 <div class="imagens crop">
-                  <img [src]="item" />
+                  <img imageViewer [src]="item" />
                 </div>
               </ion-slide>
             </ion-slides>
           </ion-row>
         </ion-row>
-
-        <!-- <div padding>
-          <button ion-button block type="button" (click)="enviar()">Salvar</button>
-        </div> -->
       </ion-slide>
     </ion-slides>
   </ion-row>

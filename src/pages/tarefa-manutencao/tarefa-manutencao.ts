@@ -1,12 +1,11 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { IonicPage, NavController, Slides, NavParams, AlertController, LoadingController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, Slides, NavParams, AlertController, LoadingController, ActionSheetController, ViewController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { ToastProvider } from '../../providers/toast/toast';
 import { CameraProvider } from '../../providers/camera/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Tarefa } from '../../models/Tarefa';
-import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
@@ -20,12 +19,14 @@ export class TarefaManutencaoPage {
   chamado: any = {};
   servico: any = [];
   imagens = [];
+  editando = false;
   tarefa: Array<Tarefa>
   tipo = "eletrica";
   galleryApp = [];
   constructor(
     private Dom: DomSanitizer,
     public navCtrl: NavController,
+    public view: ViewController,
     public actionSheetCtrl: ActionSheetController,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
@@ -34,27 +35,43 @@ export class TarefaManutencaoPage {
     public _camera: CameraProvider,
     public _firebase: FirebaseProvider,
     public navParams: NavParams) {
-    this.chamado.urgente = false;
-    this.imagens = [];
+    if (this.navParams.data != null && this.navParams.data.tarefas) {
+      this.chamado = this.navParams.data;
+      this.editando = true;
+      this.imagens = this.chamado.imagens;
+    }
+    else {
+      this.chamado.urgente = false;
+      this.imagens = [];
+    }
   }
-
   ionViewDidLoad() {
     let load = this.loadingCtrl.create({
-      content:"Buscando",
-      spinner:"ios"
+      content: "Buscando",
+      spinner: "ios"
     });
     load.present();
     this._firebase.getServico(5).subscribe((res: any) => {
       this.servico = res;
+      if (this.editando)
+        this.chamado.tarefas.forEach(element => {
+          let aux = this.servico.find(x => x.$key == element.servicoId)
+          if (aux) {
+            aux.ativo = true;
+            aux.feito = aux.feito;
+          }
+        });
       load.dismiss();
     })
-    this.AdicionarNumeroQuarto()
+    if (!this.editando)
+      this.AdicionarNumeroQuarto()
     this.slides.lockSwipes(true)
   }
   AdicionarNumeroQuarto() {
     let alert = this.alertCtrl.create({
       title: 'Atenção',
       message: "Informe o numero do quarto!",
+      enableBackdropDismiss: false,
       inputs: [
         {
           name: 'quarto',
@@ -65,7 +82,7 @@ export class TarefaManutencaoPage {
         {
           text: 'Cancelar',
           handler: data => {
-            this.navCtrl.setRoot(TabsPage)
+            this.view.dismiss()
           }
         },
         {
@@ -75,7 +92,7 @@ export class TarefaManutencaoPage {
               this.AdicionarNumeroQuarto()
             }
             else {
-              this.servico.apartamento = data.quarto
+              this.chamado.apartamento = data.quarto
             }
           }
         }
@@ -94,38 +111,64 @@ export class TarefaManutencaoPage {
   }
   enviar() {
     let load = this.loadingCtrl.create({
-      content:"Salvando",
-      spinner:"ios"
+      content: "Salvando",
+      spinner: "ios"
     });
     load.present();
     let all = [];
     this.imagens.forEach(element => {
-      all.push(this.updateImagem(element))
+      if (element.length > 200)
+        all.push(this.updateImagem(element))
     });
     Promise.all(all).then(res => {
-      this.chamado.imagens = res;
-      this.chamado.tipo = "2";
-      this.chamado.status = "1"
-      this.chamado.datacadastro = new Date()
-      this.chamado.checkin = null
-      this.chamado.checkout = null
-      this.chamado.tarefas = [];
-      let aux: any = {};
-      this.servico.forEach(element => {
-        if (element.ativo) {
-          aux = {};
-          aux.feito = false;
-          aux.servicoId = element.$key;
-          aux.titulo = element.titulo;
-          this.chamado.tarefas.push(aux)
-        }
-      });
       this.storage.get("usuario").then(res => {
-        this.chamado.user = res.$key;
-        this._firebase.save("chamado", this.chamado).then(res => {
-          this.navCtrl.setRoot(TabsPage)
-          load.dismiss();
-        })
+        if (this.editando) {
+          this.chamado.user = res.$key;
+          this.chamado.status = "1";
+          this.chamado.tarefas = [];
+          let aux: any = {};
+          this.servico.forEach(element => {
+            if (element.ativo) {
+              aux = {};
+              aux.feito = false;
+              aux.servicoId = element.$key;
+              aux.titulo = element.titulo;
+              this.chamado.tarefas.push(aux)
+            }
+          });
+          let chave = this.chamado.$key;
+          delete this.chamado.$key;
+          this._firebase.update("chamado", chave, this.chamado).then(res => {
+            this.chamado.$key = chave;
+            load.dismiss();
+            this.view.dismiss()
+          })
+        }
+        else {
+          this.chamado.imagens = res;
+          this.chamado.tipo = 5;
+          this.chamado.status = "1"
+          this.chamado.datacadastro = new Date()
+          this.chamado.checkin = null
+          this.chamado.checkout = null
+          this.chamado.tarefas = [];
+          let aux: any = {};
+          this.servico.forEach(element => {
+            if (element.ativo) {
+              aux = {};
+              aux.feito = false;
+              aux.servicoId = element.$key;
+              aux.titulo = element.titulo;
+              this.chamado.tarefas.push(aux)
+            }
+          });
+
+          this.chamado.user = res.$key;
+          this._firebase.save("chamado", this.chamado).then(res => {
+            this.view.dismiss()
+            load.dismiss();
+          })
+        }
       })
     })
   }

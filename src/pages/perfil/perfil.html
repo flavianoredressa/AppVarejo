@@ -1,0 +1,11 @@
+<ion-content *ngIf="usuario">
+  <div id="profile-bg" [ngStyle]="{'background-image': 'url(assets/imgs/7.jpg)'}"></div>
+  <div id="content">
+    <div id="profile-info">
+      <img id="profile-image" src="assets/imgs/perfil.png">
+      <h3 id="profile-name">{{usuario.nome}}</h3>
+      <span id="profile-description">{{usuario.cargo}}</span><br>
+      <button ion-button full color="danger" (tap)="Sair()" clear>Sair</button>
+    </div>
+  </div>
+</ion-content>
