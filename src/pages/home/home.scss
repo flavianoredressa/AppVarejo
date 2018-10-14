@@ -1,12 +1,6 @@
 page-home {
-    ion-content {
-        // background: linear-gradient(0deg, rgba(152, 205, 226, 0.35)), url(../assets/imgs/bk2.png) no-repeat center center fixed !important;
-        // background: url(../assets/imgs/bk.png) no-repeat bottom center fixed !important;
-        //   background-size: 100% !important;
-        // background: rgba(32, 32, 32, .75) !important;
-        // background: $orange !important;
-      }
-      h4{
-          color:$amarelo
+
+    ion-card{
+          border-radius: .5rem !important
       }
 }

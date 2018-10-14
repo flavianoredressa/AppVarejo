@@ -41,6 +41,7 @@ export class TarefaCamareiraPage {
   }
   AdicionarNumeroQuarto() {
     let alert = this.alertCtrl.create({
+      enableBackdropDismiss: false,
       title: 'Atenção',
       message: "Informe o numero do quarto!",
       inputs: [
