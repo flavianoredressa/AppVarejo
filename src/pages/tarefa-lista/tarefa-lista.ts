@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { Storage } from '@ionic/storage';
 
@@ -17,10 +17,11 @@ import { Storage } from '@ionic/storage';
 })
 export class TarefaListaPage {
   private listaTarefa = [];
-  private usuario = {};
+  private usuario: any = {};
   constructor(
     public navCtrl: NavController,
     public storage: Storage,
+    public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public _firebase: FirebaseProvider,
     public navParams: NavParams) {
@@ -48,8 +49,8 @@ export class TarefaListaPage {
   }
   ordenacao(res) {
     this.listaTarefa = res.sort((a, b) => {
-      var A = a.status.toLowerCase();
-      var B = b.status.toLowerCase();
+      var A = a.status;
+      var B = b.status;
       if (A < B) {
         return -1;
       } else if (A > B) {
@@ -59,10 +60,39 @@ export class TarefaListaPage {
       }
     })
     this.listaTarefa.forEach(element => {
-      element.porcentagem = this.VerificarPorcentagem(element);
+      element.porcentagem = this.verificarPorcentagem(element);
     });
   }
-  VerificarPorcentagem(item) {
+  pegarChamado(item) {
+    let alert = this.alertCtrl.create({
+      title: 'Atenção',
+      message: "Deseja pegar o quarto nº" + item.apartamento,
+      buttons: [
+        {
+          text: 'Não',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: data => {
+            let key = item.$key + "";
+            delete item.$key
+            item.pegouId = this.usuario.$key;
+            item.pegouNome = this.usuario.nome;
+            item.status = 2;
+
+            this._firebase.update("chamado", key, item).then()
+            {
+              item.$key = key;
+            }
+          }
+        }
+      ]
+    });
+    alert.present()
+  }
+  verificarPorcentagem(item) {
     var total = item.tarefas.length
     var tarefaFeita = 0
     item.tarefas.forEach(element => {
@@ -71,7 +101,7 @@ export class TarefaListaPage {
     });
     return tarefaFeita / total * 100
   }
-  OpenDetalhes(item) {
+  openDetalhes(item) {
     switch (item.tipo) {
       case "4":
         this.navCtrl.push("TarefaDetalheCamareiraPage", item)
@@ -87,7 +117,7 @@ export class TarefaListaPage {
         break;
     }
   }
-  OpenPage(item) {
+  openPage(item) {
     this.navCtrl.push(item)
   }
 }

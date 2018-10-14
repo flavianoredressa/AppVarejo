@@ -3,15 +3,9 @@ page-tarefa-detalhe-camareira {
         border-radius: 50% !important;
         border: #488aff 1px solid;
     }
-    .Bar {
-        height: 10px;
-        width: 100%;
-        background: #ddd;
-      }
-    
-      .Progress{
-        height: 10px;
-        background: #009200;
-        transition: width .5s;
-      }
+    .disabled{
+        border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+        }
 }

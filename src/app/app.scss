@@ -83,3 +83,17 @@ ion-content {
 .btnQuarto{
   font-size: 2rem
 }
+.Bar {
+  border-radius: 4px;
+  margin-bottom: 2rem;
+  height: 10px;
+  width: 100%;
+  background: #ddd;
+}
+
+.Progress{
+  border-radius: 4px;
+  height: 10px;
+  background: #009200;
+  transition: width .5s;
+}
