@@ -28,7 +28,7 @@ export class LoginPage {
   }
   Logar() {
     let load = this.loadingCtrl.create({
-      content:"Buscado",
+      content:"Verificando",
       spinner:"ios"
     });
     load.present();

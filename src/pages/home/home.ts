@@ -8,14 +8,27 @@ import { FirebaseProvider } from '../../providers/firebase/firebase';
 })
 export class HomePage {
 
-  ListaApartamento:any =[]
+  ListaApartamento: any = []
   constructor(protected navCtrl: NavController, protected _fireabse: FirebaseProvider) {
 
   }
-  ionViewDidLoad(){
+  ionViewDidLoad() {
     this._fireabse.getAll('apartamento')
-    .subscribe((res:any)=>{
-      this.ListaApartamento = res
+      .subscribe((res: any) => {
+        this.ordenacao(res)
+      })
+  }
+  ordenacao(res) {
+    this.ListaApartamento = res.sort((a, b) => {
+      var A = a.status;
+      var B = b.status;
+      if (A < B) {
+        return -1;
+      } else if (A > B) {
+        return 1;
+      } else {
+        return 0;
+      }
     })
- }
+  }
 }

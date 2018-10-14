@@ -3,7 +3,7 @@
     <ion-title>Chamado </ion-title>
     <ion-buttons end>
       <button ion-button icon-only color="light" class="btnQuarto">
-        {{servico.apartamento}}
+        {{chamado.apartamento}}
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -70,7 +70,6 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-
       </ion-slide>
       <ion-slide>
         <input type="file" #fileInput style="visibility: hidden; height: 0px" name="files[]" (change)="processWebImage($event)" />

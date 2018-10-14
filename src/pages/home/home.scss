@@ -3,4 +3,18 @@ page-home {
     ion-card{
           border-radius: .5rem !important
       }
+      .cardCustom-3{
+        border-radius: .5rem;
+        background: #f53d3d;
+        background: linear-gradient(95deg, #f53d3d 0%, #fff 81%, #fff 100%);
+        color:white
+      }
+      .sizeIcon{
+        font-size: 2rem;
+        background: #fff
+
+      }
+      font{
+          font-size: 2rem;
+      }
 }

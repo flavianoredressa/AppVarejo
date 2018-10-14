@@ -40,13 +40,15 @@ export class TarefaCamareiraPage {
     load.present();
     this._firebase.getServico(4).subscribe((res: any) => {
       this.servico = res;
-      this.chamado.tarefas.forEach(element => {
-        let aux = this.servico.find(x => x.titulo == element.titulo)
-        aux.ativo=true;
-      });
+      if(this.chamado.tarefas){
+        this.chamado.tarefas.forEach(element => {
+          let aux = this.servico.find(x => x.titulo == element.titulo)
+          aux.ativo=true;
+        });
+      }
       load.dismiss();
     })
-    if (!this.editando)
+    if (!this.chamado.tarefas)
       this.AdicionarNumeroQuarto()
     this.slides.lockSwipes(true)
   }
