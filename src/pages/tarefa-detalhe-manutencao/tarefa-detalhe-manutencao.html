@@ -8,7 +8,7 @@
     <div [ngStyle]="{'width.%':width}" class="Progress"></div>
   </div>
   <ion-item *ngFor="let t of Tarefas">
-    <ion-label>{{t.nome}}</ion-label>
+    <ion-label>{{t.nome}}</ion-label> 
     <ion-checkbox (click)="check(t)" color="secondary"></ion-checkbox>
   </ion-item>
   <button ion-button block margin-top *ngIf="verifcaTarefa()" color="secondary" > Concluir </button>
