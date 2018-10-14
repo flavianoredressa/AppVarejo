@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { CameraProvider } from '../../providers/camera/camera';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 @Component({
   selector: 'page-home',
@@ -8,17 +8,14 @@ import { CameraProvider } from '../../providers/camera/camera';
 })
 export class HomePage {
 
- 
-  constructor(
-    protected navCtrl: NavController, 
-    // protected pService: NgProgress,
-    protected _camera:CameraProvider) {
-    // this.navCtrl.push("TarefaCamareiraPage")
-    //this.navCtrl.push("LoginPage")
+  ListaApartamento:any =[]
+  constructor(protected navCtrl: NavController, protected _fireabse: FirebaseProvider) {
 
   }
-  ionViewDidEnter(){
-    // this.pService.start();
-
-  }
+  ionViewDidLoad(){
+    this._fireabse.getAll('apartamento')
+    .subscribe((res:any)=>{
+      this.ListaApartamento = res
+    })
+ }
 }

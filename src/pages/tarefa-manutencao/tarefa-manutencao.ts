@@ -56,6 +56,7 @@ export class TarefaManutencaoPage {
     let alert = this.alertCtrl.create({
       title: 'Atenção',
       message: "Informe o numero do quarto!",
+      enableBackdropDismiss: false,
       inputs: [
         {
           name: 'quarto',
