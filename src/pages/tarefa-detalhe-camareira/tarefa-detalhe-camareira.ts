@@ -27,7 +27,6 @@ export class TarefaDetalheCamareiraPage {
       this.check();
       this.ordenacao();
     })
-
   }
   ordenacao() {
     this.chamado.tarefas = this.chamado.tarefas.sort((a, b) => {

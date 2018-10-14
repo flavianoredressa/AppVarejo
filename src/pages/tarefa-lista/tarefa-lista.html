@@ -18,11 +18,18 @@
               <h2 class="cinza" *ngIf="item.tipo == 6">Lavanderia</h2>
               <h2 class="cinza" *ngIf="item.tipo == 7">Enfermaria</h2>
             </div>
+
             <div item-end (click)="pegarChamado(item)" *ngIf="usuario.tipo==4 && item.status==1">
               <ion-icon name="md-add" class="verde"></ion-icon>
             </div>
-            <circle-progress *ngIf="!(usuario.tipo==4 && item.status==1)" item-end no-padding no-margin [percent]="item.porcentagem"
-              [titleFontSize]="12"></circle-progress>
+            <div item-end  *ngIf="!(usuario.tipo==4 && item.status==1)">
+              <!-- <div item-end *ngIf="usuario.tipo<=4 && item.status==1">
+                <ion-icon name="md-close" class="red"></ion-icon>
+              </div> -->
+              <circle-progress *ngIf="!(usuario.tipo<=4 && item.status==1)" item-end no-padding no-margin [percent]="item.porcentagem"
+                [titleFontSize]="12"></circle-progress>
+            </div>
+
           </ion-item>
         </ion-row>
       </ion-card>

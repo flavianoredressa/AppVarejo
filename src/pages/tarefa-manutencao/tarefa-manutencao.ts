@@ -76,7 +76,7 @@ export class TarefaManutencaoPage {
               this.AdicionarNumeroQuarto()
             }
             else {
-              this.servico.apartamento = data.quarto
+              this.chamado.apartamento = data.quarto
             }
           }
         }
@@ -105,7 +105,7 @@ export class TarefaManutencaoPage {
     });
     Promise.all(all).then(res => {
       this.chamado.imagens = res;
-      this.chamado.tipo = "2";
+      this.chamado.tipo = 5;
       this.chamado.status = "1"
       this.chamado.datacadastro = new Date()
       this.chamado.checkin = null

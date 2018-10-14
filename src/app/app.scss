@@ -56,6 +56,10 @@ $black-overlay: rgba(12, 80, 95, .1);
 .verde {
   color: $verde !important
 }
+.red {
+  color: red !important
+}
+
 .range-md.range-has-pin {
   padding-top: 0px;
 }
@@ -96,4 +100,35 @@ ion-content {
   height: 10px;
   background: #009200;
   transition: width .5s;
+}
+.fundoCinza {
+  background: #C9CCFE;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#C9CCFE, #FCFCFC);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#C9CCFE, #FCFCFC);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#C9CCFE, #FCFCFC);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#C9CCFE, #FCFCFC);
+  /* Standard syntax */
+  color: #252e74
+}
+
+.crop {
+  height: 8rem;
+  display: flex;
+  overflow: hidden;
+  border: white solid 1px;
+  border-radius: 1rem;
+}
+
+.crop img {
+  width: 10rem;
+  height: 8rem;
+}
+
+.imagens {
+  display: inline-block;
+  position: relative;
 }

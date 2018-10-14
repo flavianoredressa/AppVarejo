@@ -13,8 +13,9 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class TarefaCamareiraPage {
   @ViewChild(Slides) slides: Slides;
-  chamado: any = {};
-  servico:any = [];
+  private chamado: any = {};
+  private servico: any = [];
+  private editando = false;
   constructor(
     public navCtrl: NavController,
     public _toast: ToastProvider,
@@ -24,19 +25,29 @@ export class TarefaCamareiraPage {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public navParams: NavParams) {
-    this.chamado.urgente = false;
+    if (this.navParams.data != null) {
+      this.chamado = this.navParams.data;
+      this.editando = true;
+    }
+    else
+      this.chamado.urgente = false;
   }
   ionViewDidLoad() {
     let load = this.loadingCtrl.create({
-      content:"Buscado",
-      spinner:"ios"
+      content: "Buscado",
+      spinner: "ios"
     });
     load.present();
     this._firebase.getServico(4).subscribe((res: any) => {
       this.servico = res;
+      this.chamado.tarefas.forEach(element => {
+        let aux = this.servico.find(x => x.titulo == element.titulo)
+        aux.ativo=true;
+      });
       load.dismiss();
     })
-    this.AdicionarNumeroQuarto()
+    if (!this.editando)
+      this.AdicionarNumeroQuarto()
     this.slides.lockSwipes(true)
   }
   AdicionarNumeroQuarto() {
@@ -53,7 +64,7 @@ export class TarefaCamareiraPage {
         {
           text: 'Cancelar',
           handler: data => {
-           this.view.dismiss()
+            this.view.dismiss()
           }
         },
         {
@@ -74,8 +85,6 @@ export class TarefaCamareiraPage {
   ControlSlide(tipo) {
     this.slides.lockSwipes(false)
     if (tipo == 1) {
-      // if (this.slides._activeIndex == 0)
-      // this.Select();
       this.slides.slideNext(1000)
     }
     else
@@ -84,33 +93,58 @@ export class TarefaCamareiraPage {
   }
   enviar() {
     let load = this.loadingCtrl.create({
-      content:"Salvando",
-      spinner:"ios"
+      content: "Salvando",
+      spinner: "ios"
     });
     load.present();
 
     this.storage.get("usuario").then(res => {
-      this.chamado.tipo = "4";
-      this.chamado.user = res.$key;
-      this.chamado.status = "1";
-      this.chamado.datacadastro = new Date()
-      this.chamado.checkin = null
-      this.chamado.checkout = null
-      this.chamado.tarefas = [];
-      let aux: any = {};
-      this.servico.forEach(element => {
-        if (element.ativo) {
-          aux = {};
-          aux.feito = false;
-          aux.servicoId = element.$key;
-          aux.titulo = element.titulo;
-          this.chamado.tarefas.push(aux)
-        }
-      });
-      this._firebase.save("chamado", this.chamado).then(res => {
-        load.dismiss();
-       this.view.dismiss()
-      })
+      if (this.editando) {
+        this.chamado.user = res.$key;
+        this.chamado.status = "1";
+        this.chamado.tarefas = [];
+        let aux: any = {};
+        this.servico.forEach(element => {
+          if (element.ativo) {
+            aux = {};
+            aux.feito = false;
+            aux.servicoId = element.$key;
+            aux.titulo = element.titulo;
+            this.chamado.tarefas.push(aux)
+          }
+        });
+        let chave = this.chamado.$key;
+        delete this.chamado.$key;
+        this._firebase.update("chamado", chave, this.chamado).then(res => {
+          this.chamado.$key = chave;
+          load.dismiss();
+          this.view.dismiss()
+        })
+      }
+      else {
+        this.chamado.tipo = "4";
+        this.chamado.user = res.$key;
+        this.chamado.status = "1";
+        this.chamado.datacadastro = new Date()
+        this.chamado.checkin = null
+        this.chamado.checkout = null
+        this.chamado.tarefas = [];
+        let aux: any = {};
+        this.servico.forEach(element => {
+          if (element.ativo) {
+            aux = {};
+            aux.feito = false;
+            aux.servicoId = element.$key;
+            aux.titulo = element.titulo;
+            this.chamado.tarefas.push(aux)
+          }
+        });
+        this._firebase.save("chamado", this.chamado).then(res => {
+          load.dismiss();
+          this.view.dismiss()
+        })
+      }
+
     })
   }
 

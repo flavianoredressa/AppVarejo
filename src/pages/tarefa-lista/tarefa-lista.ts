@@ -45,7 +45,7 @@ export class TarefaListaPage {
             this.ordenacao(res)
             load.dismiss()
           })
-     
+
     })
   }
   ordenacao(res) {
@@ -103,20 +103,39 @@ export class TarefaListaPage {
     return tarefaFeita / total * 100
   }
   openDetalhes(item) {
-    switch (item.tipo) {
-      case "4":
-        this.navCtrl.push("TarefaDetalheCamareiraPage", item)
-        break;
-      case "5":
-        this.navCtrl.push("TarefaDetalheManutencaoPage", item)
-        break;
-      case "6":
-        this.navCtrl.push("TarefaDetalheLavanderiaPage", item)
-        break;
-      case "7":
-        this.navCtrl.push("TarefaDetalheEnfermagemPage", item)
-        break;
+    if (this.usuario.tipo < 3) {
+      switch (item.tipo + "") {
+        case "4":
+          this.navCtrl.push("TarefaCamareiraPage", item)
+          break;
+        case "5":
+          this.navCtrl.push("TarefaDetalheManutencaoPage", item)
+          break;
+        case "6":
+          this.navCtrl.push("TarefaDetalheLavanderiaPage", item)
+          break;
+        case "7":
+          this.navCtrl.push("TarefaDetalheEnfermagemPage", item)
+          break;
+      }
     }
+    else {
+      switch (item.tipo + "") {
+        case "4":
+          this.navCtrl.push("TarefaDetalheCamareiraPage", item)
+          break;
+        case "5":
+          this.navCtrl.push("TarefaDetalheManutencaoPage", item)
+          break;
+        case "6":
+          this.navCtrl.push("TarefaDetalheLavanderiaPage", item)
+          break;
+        case "7":
+          this.navCtrl.push("TarefaDetalheEnfermagemPage", item)
+          break;
+      }
+    }
+
   }
   openPage(item) {
     this.navCtrl.push(item)
