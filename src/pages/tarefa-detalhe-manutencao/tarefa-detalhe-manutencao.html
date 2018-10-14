@@ -1,15 +1,52 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Tarefa Detalhe</ion-title>
+    <ion-title>Serviço Manutenção</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="light" class="btnQuarto">
+        {{chamado.apartamento}}
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
   <div class="Bar">
     <div [ngStyle]="{'width.%':width}" class="Progress"></div>
   </div>
-  <ion-item *ngFor="let t of Tarefas">
-    <ion-label>{{t.nome}}</ion-label> 
-    <ion-checkbox (click)="check(t)" color="secondary"></ion-checkbox>
-  </ion-item>
-  <button ion-button block margin-top *ngIf="verifcaTarefa()" color="secondary" > Concluir </button>
+  <ion-row *ngIf="chamado && chamado && chamado.imagens">
+    <ion-row col-12 style="background-color:transparent; margin-top:1rem" *ngIf="chamado.imagens.length < 4">
+      <ion-slides slidesPerView="3">
+        <ion-slide #slide *ngFor="let item of  chamado.imagens">
+          <div class="imagens crop">
+            <img imageViewer [src]="item" />
+          </div>
+        </ion-slide>
+      </ion-slides>
+    </ion-row>
+    <ion-row col-12 style="background-color:transparent; margin-top:1rem" *ngIf="chamado.imagens.length >= 3">
+      <ion-slides slidesPerView="3">
+        <ion-slide #slide *ngFor="let item of chamado.imagens">
+          <div class="imagens crop">
+            <img imageViewer [src]="item" />
+          </div>
+        </ion-slide>
+      </ion-slides>
+    </ion-row>
+  </ion-row>
+  <div *ngFor="let item of chamado.tarefas">
+    <ion-item>
+      <ion-label>{{item.titulo}}</ion-label>
+      <ion-checkbox [(ngModel)]="item.feito" (ngModelChange)="enviar()" color="secondary"></ion-checkbox>
+    </ion-item>
+  </div>
+
+  <ion-card *ngIf="(chamado.outra && chamado.outra!='' )">
+    <ion-card-content>
+      <p class="Top azul">Outros</p>
+      <p text-left>
+        <font>Outra: {{chamado.outra}}</font>
+      </p>
+    </ion-card-content>
+  </ion-card>
+  <button ion-button block margin-top [disabled]="chamado && chamado.tarefas.length != taferasFeita" (tap)="concluir()"
+    color="secondary"> Concluir </button>
 </ion-content>

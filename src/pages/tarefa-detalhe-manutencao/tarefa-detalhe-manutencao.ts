@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the TarefaDetalheManutencaoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ViewController, LoadingController } from 'ionic-angular';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -14,69 +9,59 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'tarefa-detalhe-manutencao.html',
 })
 export class TarefaDetalheManutencaoPage {
-  private width: any;
-  public Tarefas: any;
-  public Tarefa: any;
-  public qtdTarefas = 0
-  public taferasFeita = 0
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.Tarefa = navParams.data
+  private width: number = 0;
+  private taferasFeita: number = 0;
+  private chamado: any = []
+  constructor(
+    public navCtrl: NavController,
+    public view: ViewController,
+    public loadingCtrl: LoadingController,
+    public storage: Storage,
+    public _firebase: FirebaseProvider,
+    public navParams: NavParams) {
+
+    this.chamado = this.navParams.data;
+    this._firebase.getByKey("chamado", this.chamado.$key).subscribe(res => {
+      this.chamado = res;
+      this.check();
+    })
   }
   ionViewDidLoad() {
     this.width = 0
-    this.Tarefas = [
-      {
-        nome: "Tarefa 1",
-        quarto: 10,
-        feito: false
-      },
-      {
-        nome: "Tarefa 2",
-        quarto: 11,
-        feito: false
-      },
-      {
-        nome: "Tarefa 3",
-        quarto: 12,
-        feito: false
-      },
-      {
-        nome: "Tarefa 4",
-        quarto: 13,
-        feito: false
-      },
-      {
-        nome: "Tarefa 5",
-        quarto: 14,
-        feito: false
-      },
-      {
-        nome: "Tarefa 6",
-        quarto: 15,
-        feito: false
-      }
-    ]
-    this.qtdTarefas = this.Tarefas.length
   }
-
-  check(tarefa) {
-    if (tarefa.feito == false) {
-      this.width = this.width + (100 / this.Tarefas.length);
-      this.taferasFeita++
-    }
-    else {
-      this.width = this.width - (100 / this.Tarefas.length);
-      this.taferasFeita--
-      if (this.width < 0)
-        this.width = 0;
-    }
-    tarefa.feito = !tarefa.feito;
+  check() {
+    var total = this.chamado.tarefas.length
+    this.taferasFeita = 0
+    this.chamado.tarefas.forEach(element => {
+      if (element.feito)
+        this.taferasFeita++
+    });
+    this.width = this.taferasFeita / total * 100
+    if (this.taferasFeita == 1)
+      this.chamado.checkin = new Date()
   }
-
-  verifcaTarefa() {
-    if (this.taferasFeita > 0 && this.qtdTarefas == this.taferasFeita)
+  verificaTarefa() {
+    if (this.taferasFeita > 0 && this.chamado.tarefas.length == this.taferasFeita)
       return true
     else
       return false
+  }
+  enviar() {
+    this.check();
+    if (this.chamado.tarefas.length == this.taferasFeita) {
+      this.chamado.checkout = new Date()
+      this.chamado.status = "3";
+    }
+    else
+      this.chamado.status = "2";
+    let key = this.chamado.$key + "";
+    delete this.chamado.$key
+    this.storage.get("usuario").then(res => {
+      this.chamado.pegouId = res.$key;
+      this._firebase.update("chamado", key, this.chamado).then(res => { })
+    })
+  }
+  concluir() {
+    this.view.dismiss()
   }
 }

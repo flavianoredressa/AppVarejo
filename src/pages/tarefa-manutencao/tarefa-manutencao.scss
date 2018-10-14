@@ -3,38 +3,7 @@ page-tarefa-manutencao {
     margin-top: 1rem;
   }
 
-  .fundoCinza {
-    background: #C9CCFE;
-    /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(#C9CCFE, #FCFCFC);
-    /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#C9CCFE, #FCFCFC);
-    /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#C9CCFE, #FCFCFC);
-    /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#C9CCFE, #FCFCFC);
-    /* Standard syntax */
-    color: #252e74
-  }
-
-  .crop {
-    height: 8rem;
-    display: flex;
-    overflow: hidden;
-    border: white solid 1px;
-    border-radius: 1rem;
-  }
-
-  .crop img {
-    width: 10rem;
-    height: 8rem;
-  }
-
-  .imagens {
-    display: inline-block;
-    position: relative;
-  }
-
+  
   .buttonExcluir {
     position: absolute;
     top: .3rem;

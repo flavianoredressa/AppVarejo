@@ -69,7 +69,6 @@ export class FirebaseProvider {
       });
     return collection$;
   }
-
   getAp(tipo) {
     const collection = this.afs.collection(
       "apartamento",
