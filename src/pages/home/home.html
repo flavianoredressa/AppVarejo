@@ -1,7 +1,7 @@
 <ion-content padding>
-    <ion-icon class="sizeIcon" name="ios-alert-outline">Manutenção</ion-icon>
+    <!-- <ion-icon class="sizeIcon" name="ios-alert-outline">Manutenção</ion-icon>
     <ion-icon class="sizeIcon" name="ios-alert-outline">Liberado</ion-icon>
-    <ion-icon class="sizeIcon" name="ios-alert-outline"><font>Ocupado</font></ion-icon>
+    <ion-icon class="sizeIcon" name="ios-alert-outline"><font>Ocupado</font></ion-icon> -->
   <ion-row>
     <ion-col *ngFor="let item of ListaApartamento" col-6>
       <ion-card class="cardCustom-2" 
@@ -9,6 +9,10 @@
         <ion-item class="transparent">
           <ion-icon name="md-home" class="branco"></ion-icon>
           <h2>Quarto Nº {{item.numero}}</h2>
+          <h3 *ngIf="item.status == 1">Liberado</h3>
+          <h3 *ngIf="item.status == 2">Manutenção</h3>
+          <h3 *ngIf="item.status >2">Ocupado</h3>
+
         </ion-item>
       </ion-card>
     </ion-col>

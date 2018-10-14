@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import 'rxjs/Rx';
 import * as firebase from 'firebase/app';
 
-@Injectable() 
+@Injectable()
 export class FirebaseProvider {
 
   constructor(
@@ -36,7 +36,7 @@ export class FirebaseProvider {
       });
     return collection$;
   }
-  getAllFilter(colectionName,filter1,filter2) {
+  getAllFilter(colectionName, filter1, filter2) {
     const collection = this.afs.collection(colectionName,
       ref => ref.where(filter1, "==", filter2));
     const collection$ = collection.snapshotChanges()
@@ -88,11 +88,14 @@ export class FirebaseProvider {
     return this.afs.collection(page).doc(key).update(obj);
   }
   save(page, data) {
-    if (page == "chamado" && data.quarto) {
-      this.getAp(data.quarto).subscribe(res => {
+    if (page == "chamado" && data.apartamento) {
+      this.getAp(data.apartamento).subscribe(res => {
         if (res && res.length) {
           var aux = res[0];
-          aux["status"] = 1
+          if (data.tipo == 4)
+            aux["status"] = 4
+          if (data.tipo == 5)
+            aux["status"] = 5
           this.afs.collection("apartamento").doc(res[0].$key).update(aux);
         }
       })

@@ -40,11 +40,12 @@ export class TarefaCamareiraPage {
     load.present();
     this._firebase.getServico(4).subscribe((res: any) => {
       this.servico = res;
-      if(this.chamado.tarefas){
+      this.ordenacao();
+      if (this.chamado.tarefas) {
         this.chamado.tarefas.forEach(element => {
           let aux = this.servico.find(x => x.$key == element.servicoId)
-          if(aux)
-          aux.ativo=true;
+          if (aux)
+            aux.ativo = true;
         });
       }
       load.dismiss();
@@ -52,6 +53,19 @@ export class TarefaCamareiraPage {
     if (!this.chamado.tarefas)
       this.AdicionarNumeroQuarto()
     this.slides.lockSwipes(true)
+  }
+  ordenacao() {
+    this.servico = this.servico.sort((a, b) => {
+      var A = a.titulo.toLowerCase();
+      var B = b.titulo.toLowerCase();
+      if (A < B) {
+        return -1;
+      } else if (A > B) {
+        return 1;
+      } else {
+        return 0;
+      }
+    })
   }
   AdicionarNumeroQuarto() {
     let alert = this.alertCtrl.create({
