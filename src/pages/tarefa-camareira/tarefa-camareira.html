@@ -11,6 +11,20 @@
 <ion-content padding>
   <ion-row>
     <ion-slides>
+        <ion-slide *ngIf="!editando">
+            <ion-item class="no-pad">
+                <ion-label class="blue inputLabel uppercase">Vila</ion-label>
+                <ion-select (ionChange)="getVila()" [(ngModel)]="vila">
+                    <ion-option *ngFor="let vila of vilas" value="{{vila}}">{{vila}}</ion-option>
+                  </ion-select>
+              </ion-item>
+              <ion-item class="no-pad">
+                  <ion-label class="blue inputLabel uppercase">U.H.</ion-label>
+                  <ion-select [(ngModel)]="selectUh" >
+                      <ion-option *ngFor="let uh of uhs" value="{{uh.numero}}">{{uh.numero}}</ion-option>
+                    </ion-select>
+                </ion-item>
+        </ion-slide>
       <ion-slide>
         <p class="branco" no-margin>Serviços</p>
         <ion-slide>
@@ -77,7 +91,7 @@
   <ion-toolbar>
     <ion-item class="transparent" col-12 no-lines>
       <div ion-button small item-start outline round color="secondary" *ngIf="slides._activeIndex != 0" (click)="ControlSlide(2)">Voltar</div>
-      <div ion-button small item-end round *ngIf="slides && slides._activeIndex < 2" (click)="ControlSlide(1)">Próximo</div>
+      <div ion-button small item-end round *ngIf="slides && slides._activeIndex < 3 && slides._activeIndex > 0 && !editando  ||(slides._activeIndex == 0 && selectUh) || (editando && slides._activeIndex < 2)" (click)="ControlSlide(1)">Próximo</div>
     </ion-item>
   </ion-toolbar>
 </ion-footer>

@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Escolha a Uh</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <ion-label>Vila</ion-label>
+    <ion-select [(ngModel)]="vila">
+      <ion-option *ngfor="let vila of vilas" value="{{vila}}">{{vila}}</ion-option>
+    </ion-select>
+    <ion-select [(ngModel)]="selectUh">
+      <ion-option *ngfor="let uh of uhs" value="{{uh}}">{{uh.numero}}</ion-option>
+    </ion-select>
+  <button ion-button block margin-top [disabled]="chamado && chamado.tarefas.length != taferasFeita" (tap)="concluir()"
+    color="secondary"> Concluir </button>
+</ion-content>
