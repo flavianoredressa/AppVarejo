@@ -26,7 +26,7 @@ export class TarefaListaPage {
     public _firebase: FirebaseProvider,
     public navParams: NavParams) {
     let load = loadingCtrl.create({
-      content: "Buscado",
+      content: "Buscando",
       spinner: "ios"
     });
     load.present()
@@ -140,5 +140,8 @@ export class TarefaListaPage {
   }
   openPage(item) {
     this.navCtrl.push(item)
+  }
+  openConcluidos(){
+    this.navCtrl.push("TarefaListaConcluidaPage")
   }
 }
