@@ -37,6 +37,9 @@ export class TarefaDetalheManutencaoPage {
         this.taferasFeita++
     });
     this.width = this.taferasFeita / total * 100
+    if (this.taferasFeita != total)
+      this.chamado.concluido = false;
+
     if (this.taferasFeita == 1)
       this.chamado.checkin = new Date()
   }
@@ -48,12 +51,15 @@ export class TarefaDetalheManutencaoPage {
   }
   enviar() {
     this.check();
-    if (this.chamado.tarefas.length == this.taferasFeita) {
-      this.chamado.checkout = new Date()
-      this.chamado.status = "3";
+    if (this.taferasFeita == 0) {
+      this.chamado.status = 1;
+      delete this.chamado.pegouId
+      delete this.chamado.pegouNome
     }
-    else
-      this.chamado.status = "2";
+    else if (this.chamado.tarefas.length != this.taferasFeita) {
+      this.chamado.status = 2;
+    }
+    
     let key = this.chamado.$key + "";
     delete this.chamado.$key
     this.storage.get("usuario").then(res => {
@@ -62,6 +68,14 @@ export class TarefaDetalheManutencaoPage {
     })
   }
   concluir() {
-    this.view.dismiss()
+    this.storage.get("usuario").then(res => {
+      this.chamado.pegouId = res.$key;
+      this.chamado.pegouNome = res.nome;
+      this.chamado.checkout = new Date()
+      this.chamado.status = 3;
+      let key = this.chamado.$key + "";
+      delete this.chamado.$key
+      this._firebase.update("chamado", key, this.chamado).then(res => { this.view.dismiss() })
+    })
   }
 }

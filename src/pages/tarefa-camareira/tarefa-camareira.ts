@@ -152,8 +152,9 @@ export class TarefaCamareiraPage {
       this.chamado.apartamento = this.selectUh
     // this.chamado.uhKey=this.selectUh.$key
     this.storage.get("usuario").then(res => {
+      this.chamado.pegouId = res.$key;
+      this.chamado.pegouNome = res.nome;
       if (this.editando) {
-        this.chamado.user = res.$key;
         this.chamado.status = 1;
         if (!this.chamado.tarefas)
           this.chamado.tarefas = [];
@@ -186,7 +187,6 @@ export class TarefaCamareiraPage {
       }
       else {
         this.chamado.tipo = 4;
-        this.chamado.user = res.$key;
         this.chamado.status = 1;
         this.chamado.datacadastro = new Date()
         this.chamado.checkin = null

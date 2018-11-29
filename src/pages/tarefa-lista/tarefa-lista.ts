@@ -33,7 +33,7 @@ export class TarefaListaPage {
     this.storage.get("usuario").then(res => {
       if (res) {
         this.usuario = res;
-        if (res.tipo == 4) {
+        if (res.tipo == 4 ||res.tipo ==5 ) {
           this._firebase.getAllFilter2('chamado', "tipo", res.tipo,"status",3)
             .subscribe((res: any) => {
               this.ordenacao(res)

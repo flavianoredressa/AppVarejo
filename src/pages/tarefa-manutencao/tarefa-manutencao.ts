@@ -122,20 +122,31 @@ export class TarefaManutencaoPage {
     });
     Promise.all(all).then(res => {
       this.storage.get("usuario").then(res => {
-        if (this.editando) {
-          this.chamado.user = res.$key;
-          this.chamado.status = "1";
+        this.chamado.pegouId = res.$key;
+        this.chamado.pegouNome = res.nome;
+        if (this.editando) { 
+          this.chamado.status = 1;
+          if (!this.chamado.tarefas)
           this.chamado.tarefas = [];
           let aux: any = {};
+          let novas = [];
           this.servico.forEach(element => {
             if (element.ativo) {
               aux = {};
               aux.feito = false;
               aux.servicoId = element.$key;
               aux.titulo = element.titulo;
-              this.chamado.tarefas.push(aux)
+              novas.push(aux)
             }
           });
+          novas.forEach(element => {
+            let aux3 = this.chamado.tarefas.find(x => x.servicoId == element.servicoId)
+            if (aux3 && aux3.feito) {
+              this.chamado.status = 2;
+              element.feito = true;
+            }
+          });
+          this.chamado.tarefas = novas;
           let chave = this.chamado.$key;
           delete this.chamado.$key;
           this._firebase.update("chamado", chave, this.chamado).then(res => {
@@ -145,9 +156,9 @@ export class TarefaManutencaoPage {
           })
         }
         else {
-          this.chamado.imagens = res;
+          this.chamado.imagens=this.imagens
           this.chamado.tipo = 5;
-          this.chamado.status = "1"
+          this.chamado.status = 1
           this.chamado.datacadastro = new Date()
           this.chamado.checkin = null
           this.chamado.checkout = null

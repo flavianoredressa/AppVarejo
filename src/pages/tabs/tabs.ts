@@ -3,7 +3,6 @@ import { Component, ViewChild } from '@angular/core';
 import { HomePage } from '../home/home';
 import { AvaliacoesPage } from '../avaliacoes/avaliacoes';
 import { TarefaListaPage } from '../tarefa-lista/tarefa-lista';
-import { AvaliarPage } from '../avaliar/avaliar';
 import { Storage } from '@ionic/storage';
 import { Tabs } from 'ionic-angular';
 
@@ -39,8 +38,14 @@ export class TabsPage {
           this.tabs[4].ativo = true;
           this.tabRef.select(3);
           break;
-        case 4:
+        case 4://camareira
           this.tabs[1].ativo = false;
+          this.tabs[2].ativo = false;
+          this.tabs[3].ativo = false;
+          break;
+          case 5://Manutencao
+          this.tabs[1].ativo = false;
+          this.tabs[2].ativo = false;
           this.tabs[3].ativo = false;
           break;
 
