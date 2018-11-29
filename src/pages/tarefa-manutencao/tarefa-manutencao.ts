@@ -125,6 +125,7 @@ export class TarefaManutencaoPage {
     alert.present()
   }
   ControlSlide(tipo) {
+    console.log(this.slides._activeIndex)
     this.slides.lockSwipes(false)
     if (tipo == 1) {
       this.slides.slideNext(1000)
