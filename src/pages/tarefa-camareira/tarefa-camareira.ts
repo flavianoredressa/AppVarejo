@@ -11,24 +11,24 @@ import { ToastProvider } from '../../providers/toast/toast';
 })
 export class TarefaCamareiraPage {
   @ViewChild(Slides) slides: Slides;
-  private chamado: any = {};
-  private servico: any = [];
-  private editando = false;
-  private vilas = [];
-  private vila;
-  private uhs = [];
-  private uhsALL = [];
-  private selectUh
+  protected chamado: any = {};
+  protected servico: any = [];
+  protected editando = false;
+  protected vilas = [];
+  protected vila;
+  protected uhs = [];
+  protected uhsALL = [];
+  protected selectUh
 
   constructor(
-    public navCtrl: NavController,
-    public _toast: ToastProvider,
-    public view: ViewController,
-    public _firebase: FirebaseProvider,
-    public storage: Storage,
-    public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController,
-    public navParams: NavParams) {
+    protected navCtrl: NavController,
+    protected _toast: ToastProvider,
+    protected view: ViewController,
+    protected _firebase: FirebaseProvider,
+    protected storage: Storage,
+    protected alertCtrl: AlertController,
+    protected loadingCtrl: LoadingController,
+    protected navParams: NavParams) {
     if (this.navParams.data != null && this.navParams.data.tarefas) {
       this.chamado = this.navParams.data;
       this.editando = true;

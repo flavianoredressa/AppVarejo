@@ -23,6 +23,12 @@ export class TarefaManutencaoPage {
   tarefa: Array<Tarefa>
   tipo = "eletrica";
   galleryApp = [];
+  protected vilas = [];
+  protected vila;
+  protected uhs = [];
+  protected uhsALL = [];
+  protected selectUh
+
   constructor(
     private Dom: DomSanitizer,
     public navCtrl: NavController,
@@ -51,6 +57,15 @@ export class TarefaManutencaoPage {
       spinner: "ios"
     });
     load.present();
+    this._firebase.getAll("apartamento").subscribe(res => {
+      res.forEach((element: any) => {
+        if (element.referencia && this.vilas.indexOf(element.referencia) == -1)
+          this.vilas.push(element.referencia)
+      });
+      this.uhs = res;
+      this.uhsALL = res;
+
+    })
     this._firebase.getServico(5).subscribe((res: any) => {
       this.servico = res;
       if (this.editando)
@@ -64,8 +79,17 @@ export class TarefaManutencaoPage {
       load.dismiss();
     })
     if (!this.editando)
-      this.AdicionarNumeroQuarto()
+     // this.AdicionarNumeroQuarto()
     this.slides.lockSwipes(true)
+  }
+  getVila() {
+    let aux = [];
+    this.uhsALL.forEach(element => {
+      if (element.referencia == this.vila)
+        aux.push(element)
+    });
+    this.uhs = aux;
+    this.selectUh = null;
   }
   AdicionarNumeroQuarto() {
     let alert = this.alertCtrl.create({

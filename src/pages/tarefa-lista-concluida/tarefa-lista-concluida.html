@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Tarefas</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngIf="usuario">
+    <div *ngFor="let item of listaTarefa" no-lines class="transparent">
+      <ion-card *ngIf="item.status == 3" class="cardCustom-3">
+        <ion-row>
+          <ion-item class="transparent">
+            <div (click)="openDetalhes(item)">
+              <h2 class="cinza">Unidade Habitacional nº {{item.apartamento}}</h2>
+              <h2 class="cinza" *ngIf="item.tipo == 4">Colaborador<font *ngIf="item.status!=1 && item.pegouNome">:
+                  {{item.pegouNome}}</font>
+              </h2>
+              <h2 class="cinza" *ngIf="item.tipo == 4">Data Cadastro<font *ngIf="item.status!=1 && item.pegouNome">:
+                {{formataData(item.datacadastro) | date:'d MMM yyyy HH:mm'}}</font>
+            </h2>
+            <h2 class="cinza" *ngIf="item.tipo == 4">Começou<font *ngIf="item.status!=1 && item.pegouNome">:
+              {{formataData(item.checkin) | date:'d MMM yyyy HH:mm'}}</font>
+          </h2>
+          <h2 class="cinza" *ngIf="item.tipo == 4">Terminou<font *ngIf="item.status!=1 && item.pegouNome">:
+            {{formataData(item.checkout) | date:'d MMM yyyy HH:mm'}}</font>
+        </h2>
+
+
+              <h2 class="cinza" *ngIf="item.tipo == 5">Manutenção</h2>
+              <h2 class="cinza" *ngIf="item.tipo == 6">Lavanderia</h2>
+              <h2 class="cinza" *ngIf="item.tipo == 7">Enfermaria</h2>
+            </div>
+
+            <div item-end (click)="pegarChamado(item)" *ngIf="usuario.tipo==4 && item.status==1">
+              <ion-icon name="md-add" class="verde"></ion-icon>
+            </div>
+            <!-- <div item-end  *ngIf="!(usuario.tipo==4 && item.status==1)">
+              <circle-progress *ngIf="!(usuario.tipo <=4 && item.status==1)" item-end no-padding no-margin [percent]="item.porcentagem"
+                [titleFontSize]="12"></circle-progress>
+            </div> -->
+
+          </ion-item>
+        </ion-row>
+      </ion-card>
+    </div>
+  </ion-list>
+  <ion-fab right bottom>
+    <button ion-fab color="primary">
+      <ion-icon name="md-add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="openPage('TarefaCamareiraPage')">
+        <img src="assets/imgs/camareira.svg" class="sinal">
+      </button>
+      <button ion-fab (click)="openPage('TarefaManutencaoPage')">
+        <img src="assets/imgs/manutencao.svg" class="sinal">
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

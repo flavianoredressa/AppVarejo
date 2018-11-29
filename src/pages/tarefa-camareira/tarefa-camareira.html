@@ -12,14 +12,16 @@
   <ion-row>
     <ion-slides>
         <ion-slide *ngIf="!editando">
+          <p class="branco" >Selecione a Vila</p>
             <ion-item class="no-pad">
-                <ion-label class="blue inputLabel uppercase">Vila</ion-label>
+                <ion-label class="blue inputLabel uppercase">Selecionar</ion-label>
                 <ion-select (ionChange)="getVila()" [(ngModel)]="vila">
                     <ion-option *ngFor="let vila of vilas" value="{{vila}}">{{vila}}</ion-option>
                   </ion-select>
               </ion-item>
-              <ion-item class="no-pad">
-                  <ion-label class="blue inputLabel uppercase">U.H.</ion-label>
+              <p class="branco" >Selecione a Unidade Habitacional</p>
+              <ion-item margin-top class="no-pad">
+                  <ion-label class="blue inputLabel uppercase">Selecionar</ion-label>
                   <ion-select [(ngModel)]="selectUh" >
                       <ion-option *ngFor="let uh of uhs" value="{{uh.numero}}">{{uh.numero}}</ion-option>
                     </ion-select>
