@@ -11,11 +11,7 @@
 <ion-content>
   <ion-list *ngIf="usuario">
     <div *ngFor="let item of listaTarefa" no-lines class="transparent">
-<<<<<<< HEAD
       <ion-card *ngIf="usuario.tipo<5 || (item.status==1 || usuario.$key ==item.pegouId )" [ngClass]="{'cardCustom-2':item.status == 1,'cardCustom-1':item.status == 2,'cardCustom-3':item.status == 3}">
-=======
-      <ion-card *ngIf="usuario.tipo < 4 || (item.status == 1 || usuario.$key ==item.pegouId )" [ngClass]="{'cardCustom-2':item.status == 1,'cardCustom-1':item.status == 2,'cardCustom-3':item.status == 3}">
->>>>>>> 63f9dec7bfc37c9db0c8f32ae1b71d60c2594e7b
         <ion-row>
           <ion-item class="transparent">
             <div (click)="openDetalhes(item)">
