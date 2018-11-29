@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from "angularfire2/firestore";
 import { map } from 'rxjs/operators';
 import 'rxjs/Rx';
-import * as firebase from 'firebase/app';
 
 @Injectable()
 export class FirebaseProvider {
@@ -39,6 +38,18 @@ export class FirebaseProvider {
   getAllFilter(colectionName, filter1, filter2) {
     const collection = this.afs.collection(colectionName,
       ref => ref.where(filter1, "==", filter2));
+    const collection$ = collection.snapshotChanges()
+      .map(actions => {
+        return actions.map(action => ({
+          $key: action.payload.doc.id,
+          ...action.payload.doc.data()
+        }));
+      });
+    return collection$;
+  }
+  getAllFilter2(colectionName, filter1, filter2,filter3, filter4) {
+    const collection = this.afs.collection(colectionName,
+      ref => ref.where(filter1, "==", filter2).where(filter3, "<", filter4));
     const collection$ = collection.snapshotChanges()
       .map(actions => {
         return actions.map(action => ({
@@ -85,6 +96,28 @@ export class FirebaseProvider {
     return collection$;
   }
   update(page, key, obj) {
+    // if (page == "chamado" && obj.apartamento) {
+    //   this.getAp(obj.apartamento).subscribe(res => {
+    //     if (res && res.length) {
+    //       var aux =  Object.assign({}, (res[0]));
+    //       let qtd = 0;
+    //       obj.tarefas.forEach(element => {
+    //         if (element.feito)
+    //           qtd++;
+    //       });
+    //       if (obj.tarefas.length == qtd) {
+    //         aux["status"] = 1
+    //       }
+    //       else {
+    //         if (obj.tipo == 4)
+    //           aux["status"] = 4
+    //         if (obj.tipo == 5)
+    //           aux["status"] = 3
+    //       }
+    //       this.afs.collection("apartamento").doc(res[0].$key).update(aux);
+    //     }
+    //   })
+    // }
     return this.afs.collection(page).doc(key).update(obj);
   }
   save(page, data) {
@@ -95,7 +128,7 @@ export class FirebaseProvider {
           if (data.tipo == 4)
             aux["status"] = 4
           if (data.tipo == 5)
-            aux["status"] = 5
+            aux["status"] = 3
           this.afs.collection("apartamento").doc(res[0].$key).update(aux);
         }
       })

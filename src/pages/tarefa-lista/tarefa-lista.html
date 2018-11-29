@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Tarefas</ion-title>
-    <ion-buttons end (tap)="openConcluidos()">
+    <ion-buttons end (tap)="openConcluidos()" *ngIf="usuario.tipo < 2 ">
       <button ion-button icon-only color="light" >
         Concluídos
       </button>
@@ -11,7 +11,7 @@
 <ion-content>
   <ion-list *ngIf="usuario">
     <div *ngFor="let item of listaTarefa" no-lines class="transparent">
-      <ion-card *ngIf="item.status == 1 || item.status == 2" [ngClass]="{'cardCustom-2':item.status == 1,'cardCustom-1':item.status == 2,'cardCustom-3':item.status == 3}">
+      <ion-card *ngIf="usuario.tipo < 4 || (item.status == 1 || usuario.$key ==item.pegouId )" [ngClass]="{'cardCustom-2':item.status == 1,'cardCustom-1':item.status == 2,'cardCustom-3':item.status == 3}">
         <ion-row>
           <ion-item class="transparent">
             <div (click)="openDetalhes(item)">
@@ -27,8 +27,9 @@
             <div item-end (click)="pegarChamado(item)" *ngIf="usuario.tipo==4 && item.status==1">
               <ion-icon name="md-add" class="verde"></ion-icon>
             </div>
-            <div item-end  *ngIf="!(usuario.tipo==4 && item.status==1)">
-              <circle-progress *ngIf="!(usuario.tipo <=4 && item.status==1)" item-end no-padding no-margin [percent]="item.porcentagem"
+            <div item-end *ngIf="!(usuario.tipo==4 && item.status==1)">
+
+              <circle-progress *ngIf="!(usuario.tipo<=4 && item.status==1)" item-end no-padding no-margin [percent]="item.porcentagem"
                 [titleFontSize]="12"></circle-progress>
             </div>
 

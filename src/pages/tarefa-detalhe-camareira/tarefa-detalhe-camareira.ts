@@ -20,13 +20,17 @@ export class TarefaDetalheCamareiraPage {
     public storage: Storage,
     public _firebase: FirebaseProvider,
     public navParams: NavParams) {
-      
+
     this.chamado = this.navParams.data;
-    this._firebase.getByKey("chamado", this.chamado.$key).subscribe(res => {
-      this.chamado = res;
-      this.check();
-      this.ordenacao();
-    })
+    setTimeout(() => {
+      this._firebase.getByKey("chamado", this.chamado.$key).subscribe(res => {
+        this.chamado = res;
+        console.log(res)
+        this.check();
+        this.ordenacao();
+      })
+    }, 200);
+   
   }
   ordenacao() {
     this.chamado.tarefas = this.chamado.tarefas.sort((a, b) => {
@@ -51,6 +55,9 @@ export class TarefaDetalheCamareiraPage {
         this.taferasFeita++
     });
     this.width = this.taferasFeita / total * 100
+    if (this.taferasFeita != total)
+      this.chamado.concluido = false;
+
     if (this.taferasFeita == 1)
       this.chamado.checkin = new Date()
   }
@@ -62,12 +69,15 @@ export class TarefaDetalheCamareiraPage {
   }
   enviar() {
     this.check();
-    if (this.chamado.tarefas.length == this.taferasFeita) {
-      this.chamado.checkout = new Date()
-      this.chamado.status = "3";
+    if (this.taferasFeita == 0) {
+      this.chamado.status = 1;
+      delete this.chamado.pegouId
+      delete this.chamado.pegouNome
     }
-    else
-      this.chamado.status = "2";
+    else if (this.chamado.tarefas.length != this.taferasFeita) {
+      this.chamado.status = 2;
+    }
+    
     let key = this.chamado.$key + "";
     delete this.chamado.$key
     this.storage.get("usuario").then(res => {
@@ -76,7 +86,15 @@ export class TarefaDetalheCamareiraPage {
     })
   }
   concluir() {
-    this.view.dismiss()
+    this.storage.get("usuario").then(res => {
+      this.chamado.pegouId = res.$key;
+      this.chamado.pegouNome = res.nome;
+      this.chamado.checkout = new Date()
+      this.chamado.status = 3;
+      let key = this.chamado.$key + "";
+      delete this.chamado.$key
+      this._firebase.update("chamado", key, this.chamado).then(res => { this.view.dismiss() })
+    })
   }
 
 }

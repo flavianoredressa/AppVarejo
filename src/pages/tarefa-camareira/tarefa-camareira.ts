@@ -3,8 +3,6 @@ import { IonicPage, NavController, Slides, NavParams, AlertController, LoadingCo
 import { Storage } from '@ionic/storage';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { ToastProvider } from '../../providers/toast/toast';
-import { DomSanitizer } from '@angular/platform-browser';
-import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
@@ -13,18 +11,24 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class TarefaCamareiraPage {
   @ViewChild(Slides) slides: Slides;
-  private chamado: any = {};
-  private servico: any = [];
-  private editando = false;
+  protected chamado: any = {};
+  protected servico: any = [];
+  protected editando = false;
+  protected vilas = [];
+  protected vila;
+  protected uhs = [];
+  protected uhsALL = [];
+  protected selectUh
+
   constructor(
-    public navCtrl: NavController,
-    public _toast: ToastProvider,
-    public view: ViewController,
-    public _firebase: FirebaseProvider,
-    public storage: Storage,
-    public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController,
-    public navParams: NavParams) {
+    protected navCtrl: NavController,
+    protected _toast: ToastProvider,
+    protected view: ViewController,
+    protected _firebase: FirebaseProvider,
+    protected storage: Storage,
+    protected alertCtrl: AlertController,
+    protected loadingCtrl: LoadingController,
+    protected navParams: NavParams) {
     if (this.navParams.data != null && this.navParams.data.tarefas) {
       this.chamado = this.navParams.data;
       this.editando = true;
@@ -32,12 +36,41 @@ export class TarefaCamareiraPage {
     else
       this.chamado.urgente = false;
   }
+  seleciona() {
+    debugger
+    this.selectUh=JSON.parse(this.selectUh);
+    this.chamado.apartamentoId = this.selectUh.$key;
+    this.selectUh=this.selectUh.numero
+  }
+  selectObjectById(list: any[], id: string, property: string) {
+    var item = list.find(item => item._id === id);
+    var prop = eval('this.' + property);
+    prop = property;
+}
+  getVila() {
+    let aux = [];
+    this.uhsALL.forEach(element => {
+      if (element.referencia == this.vila)
+        aux.push(element)
+    });
+    this.uhs = aux;
+    this.selectUh = null;
+  }
   ionViewDidLoad() {
     let load = this.loadingCtrl.create({
       content: "Buscado",
       spinner: "ios"
     });
     load.present();
+    this._firebase.getAll("apartamento").subscribe(res => {
+      res.forEach((element: any) => {
+        if (element.referencia && this.vilas.indexOf(element.referencia) == -1)
+          this.vilas.push(element.referencia)
+      });
+      this.uhs = res;
+      this.uhsALL = res;
+
+    })
     this._firebase.getServico(4).subscribe((res: any) => {
       this.servico = res;
       this.ordenacao();
@@ -50,8 +83,8 @@ export class TarefaCamareiraPage {
       }
       load.dismiss();
     })
-    if (!this.chamado.tarefas)
-      this.AdicionarNumeroQuarto()
+    // if (!this.chamado.tarefas)
+    // this.AdicionarNumeroQuarto()
     this.slides.lockSwipes(true)
   }
   ordenacao() {
@@ -67,39 +100,39 @@ export class TarefaCamareiraPage {
       }
     })
   }
-  AdicionarNumeroQuarto() {
-    let alert = this.alertCtrl.create({
-      enableBackdropDismiss: false,
-      title: 'Atenção',
-      message: "Informe o numero do quarto!",
-      inputs: [
-        {
-          name: 'quarto',
-          placeholder: 'Nº Quarto',
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          handler: data => {
-            this.view.dismiss()
-          }
-        },
-        {
-          text: 'Adicionar',
-          handler: data => {
-            if (data.quarto == "") {
-              this.AdicionarNumeroQuarto()
-            }
-            else {
-              this.chamado.apartamento = data.quarto
-            }
-          }
-        }
-      ]
-    });
-    alert.present()
-  }
+  // AdicionarNumeroQuarto() {
+  //   let alert = this.alertCtrl.create({
+  //     enableBackdropDismiss: false,
+  //     title: 'Atenção',
+  //     message: "Informe o numero do quarto!",
+  //     inputs: [
+  //       {
+  //         name: 'quarto',
+  //         placeholder: 'Nº Quarto',
+  //       }
+  //     ],
+  //     buttons: [
+  //       {
+  //         text: 'Cancelar',
+  //         handler: data => {
+  //           this.view.dismiss()
+  //         }
+  //       },
+  //       {
+  //         text: 'Adicionar',
+  //         handler: data => {
+  //           if (data.quarto == "") {
+  //             this.AdicionarNumeroQuarto()
+  //           }
+  //           else {
+  //             this.chamado.apartamento = data.quarto
+  //           }
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   alert.present()
+  // }
   ControlSlide(tipo) {
     this.slides.lockSwipes(false)
     if (tipo == 1) {
@@ -115,22 +148,34 @@ export class TarefaCamareiraPage {
       spinner: "ios"
     });
     load.present();
-
+    if (!this.editando)
+      this.chamado.apartamento = this.selectUh
+    // this.chamado.uhKey=this.selectUh.$key
     this.storage.get("usuario").then(res => {
       if (this.editando) {
         this.chamado.user = res.$key;
-        this.chamado.status = "1";
-        this.chamado.tarefas = [];
+        this.chamado.status = 1;
+        if (!this.chamado.tarefas)
+          this.chamado.tarefas = [];
         let aux: any = {};
+        let novas = [];
         this.servico.forEach(element => {
           if (element.ativo) {
             aux = {};
             aux.feito = false;
             aux.servicoId = element.$key;
             aux.titulo = element.titulo;
-            this.chamado.tarefas.push(aux)
+            novas.push(aux)
           }
         });
+        novas.forEach(element => {
+          let aux3 = this.chamado.tarefas.find(x => x.servicoId == element.servicoId)
+          if (aux3 && aux3.feito) {
+            this.chamado.status = 2;
+            element.feito = true;
+          }
+        });
+        this.chamado.tarefas = novas;
         let chave = this.chamado.$key;
         delete this.chamado.$key;
         this._firebase.update("chamado", chave, this.chamado).then(res => {
@@ -142,11 +187,12 @@ export class TarefaCamareiraPage {
       else {
         this.chamado.tipo = 4;
         this.chamado.user = res.$key;
-        this.chamado.status = "1";
+        this.chamado.status = 1;
         this.chamado.datacadastro = new Date()
         this.chamado.checkin = null
         this.chamado.checkout = null
-        this.chamado.tarefas = [];
+        if (!this.chamado.tarefas)
+          this.chamado.tarefas = [];
         let aux: any = {};
         this.servico.forEach(element => {
           if (element.ativo) {
@@ -162,8 +208,6 @@ export class TarefaCamareiraPage {
           this.view.dismiss()
         })
       }
-
     })
   }
-
 }
