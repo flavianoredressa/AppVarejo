@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from "angularfire2/firestore";
 import { map } from 'rxjs/operators';
 import 'rxjs/Rx';
-import * as firebase from 'firebase/app';
 
 @Injectable()
 export class FirebaseProvider {

@@ -36,6 +36,17 @@ export class TarefaCamareiraPage {
     else
       this.chamado.urgente = false;
   }
+  seleciona() {
+    debugger
+    this.selectUh=JSON.parse(this.selectUh);
+    this.chamado.apartamentoId = this.selectUh.$key;
+    this.selectUh=this.selectUh.numero
+  }
+  selectObjectById(list: any[], id: string, property: string) {
+    var item = list.find(item => item._id === id);
+    var prop = eval('this.' + property);
+    prop = property;
+}
   getVila() {
     let aux = [];
     this.uhsALL.forEach(element => {
