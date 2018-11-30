@@ -3,13 +3,6 @@ import { IonicPage, NavController, NavParams, LoadingController, AlertController
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { Storage } from '@ionic/storage';
 
-/**
- * Generated class for the TarefaListaPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-tarefa-lista',
@@ -30,18 +23,18 @@ export class TarefaListaPage {
       spinner: "ios"
     });
     load.present()
-    this.storage.get("usuario").then(res => {
-      if (res) {
-        this.usuario = res;
-        if (res.tipo == 4 ||res.tipo ==5 ) {
-          this._firebase.getAllFilter2('chamado', "tipo", res.tipo,"status",3)
+    this.storage.get("usuario").then(user => {
+      if (user) {
+        this.usuario = user;
+        if (user.tipo == 4 || user.tipo == 5) {
+          this._firebase.getAllFilter2('chamado', "tipo", user.tipo, "status", 3)
             .subscribe((res: any) => {
               this.ordenacao(res)
               load.dismiss()
             })
         }
         else
-          this._firebase.getAll('chamado')
+          this._firebase.getAllFilterMenos('chamado',"status", 3)
             .subscribe((res: any) => {
               this.ordenacao(res)
               load.dismiss()
@@ -141,7 +134,7 @@ export class TarefaListaPage {
   openPage(item) {
     this.navCtrl.push(item)
   }
-  openConcluidos(){
+  openConcluidos() {
     this.navCtrl.push("TarefaListaConcluidaPage")
   }
 }

@@ -11,22 +11,22 @@
 <ion-content padding>
   <ion-row>
     <ion-slides>
-        <ion-slide *ngIf="!editando">
-            <p class="branco" >Selecione a Vila</p>
-              <ion-item class="no-pad">
-                  <ion-label class="blue inputLabel uppercase">Selecionar</ion-label>
-                  <ion-select (ionChange)="getVila()" [(ngModel)]="vila">
-                      <ion-option *ngFor="let vila of vilas" value="{{vila}}">{{vila}}</ion-option>
-                    </ion-select>
-                </ion-item>
-                <p class="branco" >Selecione a Unidade Habitacional</p>
-                <ion-item margin-top class="no-pad">
-                    <ion-label class="blue inputLabel uppercase">Selecionar</ion-label>
-                    <ion-select [(ngModel)]="selectUh" >
-                        <ion-option *ngFor="let uh of uhs" value="{{uh.numero}}">{{uh.numero}}</ion-option>
-                      </ion-select>
-                  </ion-item>
-          </ion-slide>
+      <ion-slide *ngIf="!editando">
+        <p class="branco">Selecione a Vila</p>
+        <ion-item class="no-pad">
+          <ion-label class="blue inputLabel uppercase">Selecionar</ion-label>
+          <ion-select (ionChange)="getVila()" [(ngModel)]="vila">
+            <ion-option *ngFor="let vila of vilas" value="{{vila}}">{{vila}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <p class="branco">Selecione a Unidade Habitacional</p>
+        <ion-item margin-top class="no-pad">
+          <ion-label class="blue inputLabel uppercase">Selecionar</ion-label>
+          <ion-select [(ngModel)]="selectUh">
+            <ion-option *ngFor="let uh of uhs" value="{{uh.numero}}">{{uh.numero}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-slide>
       <ion-slide>
         <ion-row>
           <ion-segment [(ngModel)]="tipo" color="light">
@@ -35,11 +35,9 @@
             </ion-segment-button>
             <ion-segment-button value="hidraulica" id="notification-button">
               Hidraulica
-              <!-- <ion-badge id="notifications-badge" color='danger' *ngIf="visto > 0"> {{visto}}</ion-badge> -->
             </ion-segment-button>
             <ion-segment-button value="outras" id="notification-button">
               Outras
-              <!-- <ion-badge id="notifications-badge" color='danger' *ngIf="visto > 0"> {{visto}}</ion-badge> -->
             </ion-segment-button>
           </ion-segment>
         </ion-row>
@@ -117,6 +115,15 @@
         </ion-row>
       </ion-slide>
       <ion-slide>
+        <div *ngIf="chamado.descricao">
+          <div>
+            <p class="branco" no-margin>Descrição</p>
+          </div>
+          <ion-item no-lines class="transparent item-textarea">
+            <ion-textarea disabled="true" type="text" rows="2" [(ngModel)]="chamado.descricao" class="text-area"
+              text-uppercase></ion-textarea>
+          </ion-item>
+        </div>
         <div *ngIf="ativos(1)" class="transparent">
           <p class="branco" init>Elétrico</p>
           <div *ngFor="let item of servico">
@@ -147,17 +154,6 @@
             <font>Outra: {{chamado.outra}}</font>
           </p>
         </div>
-        <!-- <p class="branco">
-          <font>Eletrico</font>
-        </p>
-        <ion-list>
-          <div *ngFor="let item of servico">
-            <ion-item *ngIf="item.ativo" class="transparent">
-              <ion-icon name="checkbox-outline" class="verde"></ion-icon>
-              <font icon-end class="branco">{{item.titulo}}</font>
-            </ion-item>
-          </div>
-        </ion-list> -->
 
         <ion-row>
           <ion-row col-12 style="background-color:transparent; margin-top:1rem" *ngIf="imagens.length < 3">
@@ -190,7 +186,7 @@
         color="secondary">Anterior</div>
       <div ion-button small item-end button-clear-outline round *ngIf="slides && slides._activeIndex < 3 && verifica() || (slides && slides._activeIndex == 0 && selectUh) "
         (click)="ControlSlide(1)" color="primary">Próximo</div>
-      <div ion-button small item-end color="primary" round *ngIf="slides && slides._activeIndex == 3" (click)="enviar()">Salvar</div>
+      <div ion-button small item-end color="primary" round *ngIf="slides && (editando && slides._activeIndex == 2 || !editando && slides._activeIndex == 3)" (click)="enviar()">Salvar</div>
     </ion-item>
   </ion-toolbar>
 </ion-footer>

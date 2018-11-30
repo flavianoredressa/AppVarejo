@@ -5,13 +5,13 @@
   <ion-row>
     <ion-col *ngFor="let item of ListaApartamento" col-6>
       <ion-card class="cardCustom-2" 
-      [ngClass]="{'cardCustom-1':item.status == 1,'cardCustom-2':item.status == 2,'cardCustom-3':item.status > 2}">
+      [ngClass]="{'cardCustom-1':item.status == 0,'cardCustom-2':item.status == 1,'cardCustom-3':item.status ==2}">
         <ion-item class="transparent">
           <ion-icon name="md-home" class="branco"></ion-icon>
           <h2>Quarto Nº {{item.numero}}</h2>
-          <h3 *ngIf="item.status == 1">Liberado</h3>
-          <h3 *ngIf="item.status == 2">Manutenção</h3>
-          <h3 *ngIf="item.status >2">Ocupado</h3>
+          <h3 *ngIf="item.status == 1">Aguardando Manutenção</h3>
+          <h3 *ngIf="item.status == 2">Em Manutenção</h3>
+          <h3 *ngIf="item.status ==0">Disponível</h3>
 
         </ion-item>
       </ion-card>

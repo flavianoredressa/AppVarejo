@@ -18,7 +18,7 @@ export class LoginPage {
   cpf
   senha
   constructor(
-    public Storage: Storage,
+    public storage: Storage,
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     public _toast: ToastProvider,
@@ -35,7 +35,8 @@ export class LoginPage {
     let cpfs=this.cpf.replace(".","").replace(".","").replace("-","")
     this._firebase.login(cpfs, this.senha).subscribe(res => {
       if (res && res.length > 0) {
-        this.Storage.set("usuario", res[0])
+        // localStorage.setItem("usuario",  JSON.parse(JSON.stringify(res[0]) ))
+        this.storage.set("usuario", res[0])
         this.navCtrl.setRoot(TabsPage)
         load.dismiss()
       }

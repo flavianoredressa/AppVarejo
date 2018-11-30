@@ -100,39 +100,6 @@ export class TarefaCamareiraPage {
       }
     })
   }
-  // AdicionarNumeroQuarto() {
-  //   let alert = this.alertCtrl.create({
-  //     enableBackdropDismiss: false,
-  //     title: 'Atenção',
-  //     message: "Informe o numero do quarto!",
-  //     inputs: [
-  //       {
-  //         name: 'quarto',
-  //         placeholder: 'Nº Quarto',
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Cancelar',
-  //         handler: data => {
-  //           this.view.dismiss()
-  //         }
-  //       },
-  //       {
-  //         text: 'Adicionar',
-  //         handler: data => {
-  //           if (data.quarto == "") {
-  //             this.AdicionarNumeroQuarto()
-  //           }
-  //           else {
-  //             this.chamado.apartamento = data.quarto
-  //           }
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present()
-  // }
   ControlSlide(tipo) {
     this.slides.lockSwipes(false)
     if (tipo == 1) {

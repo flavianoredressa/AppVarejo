@@ -39,7 +39,8 @@ export class TarefaDetalheManutencaoPage {
     this.width = this.taferasFeita / total * 100
     if (this.taferasFeita != total)
       this.chamado.concluido = false;
-
+      if(this.taferasFeita != 0)
+      this.chamado.status=2;
     if (this.taferasFeita == 1)
       this.chamado.checkin = new Date()
   }
@@ -64,7 +65,8 @@ export class TarefaDetalheManutencaoPage {
     delete this.chamado.$key
     this.storage.get("usuario").then(res => {
       this.chamado.pegouId = res.$key;
-      this._firebase.update("chamado", key, this.chamado).then(res => { })
+      this.chamado.pegouNome = res.nome;
+      this._firebase.updateEdit("chamado", key, this.chamado).then(res => { })
     })
   }
   concluir() {
@@ -75,7 +77,7 @@ export class TarefaDetalheManutencaoPage {
       this.chamado.status = 3;
       let key = this.chamado.$key + "";
       delete this.chamado.$key
-      this._firebase.update("chamado", key, this.chamado).then(res => { this.view.dismiss() })
+      this._firebase.concluir(key, this.chamado).then(res => { this.view.dismiss() })
     })
   }
 }

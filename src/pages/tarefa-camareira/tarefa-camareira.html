@@ -82,9 +82,6 @@
               text-uppercase></ion-textarea>
           </ion-item>
         </div>
-        <div>
-          <button ion-button block type="button" (click)="enviar()">Salvar</button>
-        </div>
       </ion-slide>
     </ion-slides>
   </ion-row>
@@ -94,6 +91,8 @@
     <ion-item class="transparent" col-12 no-lines>
       <div ion-button small item-start outline round color="secondary" *ngIf="slides._activeIndex != 0" (click)="ControlSlide(2)">Voltar</div>
       <div ion-button small item-end round *ngIf="slides && slides._activeIndex < 3 && slides._activeIndex > 0 && !editando  ||(slides._activeIndex == 0 && selectUh) || (editando && slides._activeIndex < 2)" (click)="ControlSlide(1)">Próximo</div>
+      <div ion-button small item-end color="primary" round *ngIf="slides && (editando && slides._activeIndex == 2 || !editando && slides._activeIndex == 3)" (click)="enviar()">Salvar</div>
+
     </ion-item>
   </ion-toolbar>
 </ion-footer>
