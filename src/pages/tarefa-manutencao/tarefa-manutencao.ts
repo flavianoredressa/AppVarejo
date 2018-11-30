@@ -79,8 +79,7 @@ export class TarefaManutencaoPage {
       load.dismiss();
     })
     if (!this.editando)
-     // this.AdicionarNumeroQuarto()
-    this.slides.lockSwipes(true)
+      this.slides.lockSwipes(true)
   }
   getVila() {
     let aux = [];
@@ -90,39 +89,6 @@ export class TarefaManutencaoPage {
     });
     this.uhs = aux;
     this.selectUh = null;
-  }
-  AdicionarNumeroQuarto() {
-    let alert = this.alertCtrl.create({
-      title: 'Atenção',
-      message: "Informe o numero do quarto!",
-      enableBackdropDismiss: false,
-      inputs: [
-        {
-          name: 'quarto',
-          placeholder: 'Nº Quarto',
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          handler: data => {
-            this.view.dismiss()
-          }
-        },
-        {
-          text: 'Adicionar',
-          handler: data => {
-            if (data.quarto == "") {
-              this.AdicionarNumeroQuarto()
-            }
-            else {
-              this.chamado.apartamento = data.quarto
-            }
-          }
-        }
-      ]
-    });
-    alert.present()
   }
   ControlSlide(tipo) {
     console.log(this.slides._activeIndex)
@@ -135,6 +101,8 @@ export class TarefaManutencaoPage {
     this.slides.lockSwipes(true)
   }
   enviar() {
+    if (!this.editando)
+      this.chamado.apartamento = this.selectUh
     let load = this.loadingCtrl.create({
       content: "Salvando",
       spinner: "ios"
@@ -149,10 +117,10 @@ export class TarefaManutencaoPage {
       this.storage.get("usuario").then(res => {
         this.chamado.pegouId = res.$key;
         this.chamado.pegouNome = res.nome;
-        if (this.editando) { 
+        if (this.editando) {
           this.chamado.status = 1;
           if (!this.chamado.tarefas)
-          this.chamado.tarefas = [];
+            this.chamado.tarefas = [];
           let aux: any = {};
           let novas = [];
           this.servico.forEach(element => {
@@ -181,7 +149,7 @@ export class TarefaManutencaoPage {
           })
         }
         else {
-          this.chamado.imagens=this.imagens
+          this.chamado.imagens = this.imagens
           this.chamado.tipo = 5;
           this.chamado.status = 1
           this.chamado.datacadastro = new Date()
@@ -275,7 +243,6 @@ export class TarefaManutencaoPage {
     let reader = new FileReader();
     reader.onload = (readerEvent) => {
       let imageData = (readerEvent.target as any).result;
-      // this.updateImagem(imageData).then(res=>{})
       this.imagens.push(imageData)
     };
     if (event.target.files.length > 0)

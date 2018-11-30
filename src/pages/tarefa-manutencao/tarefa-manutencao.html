@@ -184,7 +184,7 @@
     <ion-item class="transparent" col-12 no-lines>
       <div ion-button small item-start outline round *ngIf="slides && slides._activeIndex != 0 " (click)="ControlSlide(2)"
         color="secondary">Anterior</div>
-      <div ion-button small item-end button-clear-outline round *ngIf="slides && slides._activeIndex < 3 && verifica() || (slides && slides._activeIndex == 0 && selectUh) "
+      <div ion-button small item-end button-clear-outline round *ngIf="slides && ( !editando &&  slides._activeIndex < 3 || editando &&  slides._activeIndex < 2 )  && verifica() || (slides && slides._activeIndex == 0 && selectUh) "
         (click)="ControlSlide(1)" color="primary">Próximo</div>
       <div ion-button small item-end color="primary" round *ngIf="slides && (editando && slides._activeIndex == 2 || !editando && slides._activeIndex == 3)" (click)="enviar()">Salvar</div>
     </ion-item>

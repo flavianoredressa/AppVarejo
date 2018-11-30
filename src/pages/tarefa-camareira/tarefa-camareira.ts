@@ -36,12 +36,7 @@ export class TarefaCamareiraPage {
     else
       this.chamado.urgente = false;
   }
-  seleciona() {
-    debugger
-    this.selectUh=JSON.parse(this.selectUh);
-    this.chamado.apartamentoId = this.selectUh.$key;
-    this.selectUh=this.selectUh.numero
-  }
+  
   selectObjectById(list: any[], id: string, property: string) {
     var item = list.find(item => item._id === id);
     var prop = eval('this.' + property);
@@ -117,13 +112,12 @@ export class TarefaCamareiraPage {
     load.present();
     if (!this.editando)
       this.chamado.apartamento = this.selectUh
-    // this.chamado.uhKey=this.selectUh.$key
     this.storage.get("usuario").then(res => {
       this.chamado.pegouId = res.$key;
       this.chamado.pegouNome = res.nome;
       if (this.editando) {
         this.chamado.status = 1;
-        if (!this.chamado.tarefas)
+        if (!this.chamado.tarefas) 
           this.chamado.tarefas = [];
         let aux: any = {};
         let novas = [];
