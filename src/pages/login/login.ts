@@ -37,7 +37,7 @@ export class LoginPage {
       if (res && res.length > 0) {
         // localStorage.setItem("usuario",  JSON.parse(JSON.stringify(res[0]) ))
         this.storage.set("usuario", res[0])
-        this.navCtrl.setRoot(TabsPage)
+        this.navCtrl.setRoot(TabsPage) 
         load.dismiss()
       }
       else{

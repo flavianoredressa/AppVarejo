@@ -28,15 +28,57 @@
                 </ion-item>
         </ion-slide>
       <ion-slide>
-        <p class="branco" no-margin>Serviços</p>
-        <ion-slide>
-          <ion-list>
-            <ion-item *ngFor="let item of servico" class="transparent">
-              <ion-label class="branco">{{item.titulo}}</ion-label>
-              <ion-toggle [(ngModel)]="item.ativo" color='primary'></ion-toggle>
-            </ion-item>
-          </ion-list>
-        </ion-slide>
+          <ion-row>
+              <ion-segment [(ngModel)]="tipo" color="light">
+                <ion-segment-button value="limpeza">
+                    Limpeza
+                </ion-segment-button>
+                <ion-segment-button value="montagem" id="notification-button">
+                    Montagem
+                </ion-segment-button>
+                <ion-segment-button value="checklist" id="notification-button">
+                    Check list
+                </ion-segment-button>
+              </ion-segment>
+            </ion-row>
+            <ion-grid>
+                <ion-row>
+                  <ion-col col-12>
+                    <div [ngSwitch]="tipo">
+                      <ion-list no-margin *ngSwitchCase="'limpeza'">
+                        <ion-list>
+                          <div *ngFor="let item of servico">
+                            <ion-item *ngIf="item.tipoServico==0" class="transparent">
+                              <ion-label class="branco">{{item.titulo}}</ion-label>
+                              <ion-toggle [(ngModel)]="item.ativo" color='primary'></ion-toggle>
+                            </ion-item>
+                          </div>
+                        </ion-list>
+                      </ion-list>
+                      <ion-list no-margin *ngSwitchCase="'montagem'">
+                        <ion-list transparent>
+                          <div *ngFor="let item of servico">
+                            <ion-item *ngIf="item.tipoServico==-1" class="transparent">
+                              <ion-label class="branco">{{item.titulo}}</ion-label>
+                              <ion-toggle [(ngModel)]="item.ativo" color='primary'></ion-toggle>
+                            </ion-item>
+                          </div>
+                        </ion-list>
+                      </ion-list>
+                      <ion-list no-margin *ngSwitchCase="'checklist'">
+                        <ion-list transparent>
+                          <div *ngFor="let item of servico">
+                            <ion-item *ngIf="item.tipoServico==-2" class="transparent">
+                              <ion-label class="branco">{{item.titulo}}</ion-label>
+                              <ion-toggle [(ngModel)]="item.ativo" color='primary'></ion-toggle>
+                            </ion-item>
+                          </div>
+                        </ion-list>
+                      </ion-list>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
       </ion-slide>
       <ion-slide>
         <p class="branco" no-margin>Descrição</p>

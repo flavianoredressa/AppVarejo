@@ -19,7 +19,7 @@ export class TarefaCamareiraPage {
   protected uhs = [];
   protected uhsALL = [];
   protected selectUh
-
+  tipo = "limpeza";
   constructor(
     protected navCtrl: NavController,
     protected _toast: ToastProvider,
@@ -35,6 +35,9 @@ export class TarefaCamareiraPage {
     }
     else
       this.chamado.urgente = false;
+      setTimeout(() => {
+        this.slides.slideNext();
+      }, 2000);
   }
   
   selectObjectById(list: any[], id: string, property: string) {
@@ -66,7 +69,7 @@ export class TarefaCamareiraPage {
       this.uhsALL = res;
 
     })
-    this._firebase.getServico(4).subscribe((res: any) => {
+    this._firebase.getServico(1).subscribe((res: any) => {
       this.servico = res;
       this.ordenacao();
       if (this.chamado.tarefas) {

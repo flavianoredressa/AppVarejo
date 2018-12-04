@@ -10,7 +10,6 @@ export class HomePage {
 
   ListaApartamento: any = []
   constructor(protected navCtrl: NavController, protected _fireabse: FirebaseProvider) {
-
   }
   ionViewDidLoad() {
     this._fireabse.getAll('apartamento')

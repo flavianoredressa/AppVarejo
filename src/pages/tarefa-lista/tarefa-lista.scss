@@ -8,15 +8,21 @@ page-tarefa-lista {
         height:30px !important
     }
     
-    .branco{
+    .black{
         color: black !important;
         font-weight: 500;
     }
     .cinza{
-        color: gray !important;
+        // color: gray !important;
         font-weight: 500;
     }
     ion-avatar{
         margin: 8px 16px 0px 0 !important
     }
+    .cardCustom-4{
+        border-radius: .5rem;
+        background: #9E60EB;
+        background: linear-gradient(95deg, #9E60EB 0%, #fff 81%, #fff 100%);
+        color:white
+      }
 }

@@ -11,11 +11,11 @@
 <ion-content>
   <ion-list *ngIf="usuario">
     <div *ngFor="let item of listaTarefa" no-lines class="transparent">
-      <ion-card *ngIf="usuario.tipo<5 || (item.status==1 || usuario.$key ==item.pegouId )" [ngClass]="{'cardCustom-2':item.status == 1,'cardCustom-1':item.status == 2,'cardCustom-3':item.status == 3}">
+      <ion-card *ngIf="usuario.tipo<5 || (item.status==1 || usuario.$key ==item.pegouId )" [ngClass]="{'cardCustom-4':item.urgente,'cardCustom-2':item.status == 1,'cardCustom-1':item.status == 2,'cardCustom-3':item.status == 3}">
         <ion-row>
           <ion-item class="transparent">
             <div (click)="openDetalhes(item)">
-              <h2 class="branco">Quarto nº {{item.apartamento}}</h2>
+              <h2 class="black">Quarto nº {{item.apartamento}}</h2>
               <h2 class="cinza" *ngIf="item.tipo == 4">Camareira<font *ngIf="item.status!=1 && item.pegouNome">:
                   {{item.pegouNome}}</font>
               </h2>
@@ -49,9 +49,10 @@
       <button ion-fab (click)="openPage('TarefaCamareiraPage')">
         <img src="assets/imgs/camareira.svg" class="sinal">
       </button>
-      <button ion-fab (click)="openPage('TarefaManutencaoPage')">
+      <button ion-fab (click)="breve()">
         <img src="assets/imgs/manutencao.svg" class="sinal">
       </button>
+
     </ion-fab-list>
   </ion-fab>
 

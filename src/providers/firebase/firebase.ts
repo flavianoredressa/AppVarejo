@@ -81,7 +81,7 @@ export class FirebaseProvider {
     }))
   }
   getServico(tipo) {
-    const collection = this.afs.collection("servico", ref => ref.where("tipoUsuario", "==", tipo));
+    const collection = this.afs.collection("servico", ref => ref.where("tipoServico", "<", tipo));
     const collection$ = collection
       .snapshotChanges()
       .map(actions => {

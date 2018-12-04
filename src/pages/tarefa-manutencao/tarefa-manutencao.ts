@@ -66,7 +66,7 @@ export class TarefaManutencaoPage {
       this.uhsALL = res;
 
     })
-    this._firebase.getServico(5).subscribe((res: any) => {
+    this._firebase.getServico(6).subscribe((res: any) => {
       this.servico = res;
       if (this.editando)
         this.chamado.tarefas.forEach(element => {

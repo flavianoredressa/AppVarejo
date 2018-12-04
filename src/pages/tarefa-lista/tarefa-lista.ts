@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 import { Storage } from '@ionic/storage';
+import { ToastProvider } from '../../providers/toast/toast';
 
 @IonicPage()
 @Component({
@@ -17,6 +18,7 @@ export class TarefaListaPage {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     public _firebase: FirebaseProvider,
+    public _toast: ToastProvider,
     public navParams: NavParams) {
     let load = loadingCtrl.create({
       content: "Buscando",
@@ -34,7 +36,7 @@ export class TarefaListaPage {
             })
         }
         else
-          this._firebase.getAllFilterMenos('chamado',"status", 3)
+          this._firebase.getAllFilterMenos('chamado', "status", 3)
             .subscribe((res: any) => {
               this.ordenacao(res)
               load.dismiss()
@@ -44,15 +46,23 @@ export class TarefaListaPage {
   }
   ordenacao(res) {
     this.listaTarefa = res.sort((a, b) => {
-      var A = a.status;
-      var B = b.status;
-      if (A < B) {
+      if (a.urgente && !b.urgente)
         return -1;
-      } else if (A > B) {
-        return 1;
-      } else {
-        return 0;
-      }
+      else
+        if (!a.urgente && b.urgente)
+          return 1;
+
+        else {
+          var A = a.status;
+          var B = b.status;
+          if (A < B) {
+            return -1;
+          } else if (A > B) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
     })
     this.listaTarefa.forEach(element => {
       element.porcentagem = this.verificarPorcentagem(element);
@@ -136,5 +146,9 @@ export class TarefaListaPage {
   }
   openConcluidos() {
     this.navCtrl.push("TarefaListaConcluidaPage")
+  }
+  breve()
+  {
+    this._toast.present('Em Breve')
   }
 }
