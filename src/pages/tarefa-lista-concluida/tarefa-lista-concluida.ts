@@ -59,4 +59,19 @@ export class TarefaListaConcluidaPage {
   formataData(timestamp){
     return new Date(timestamp.seconds*1000)
   }
+  getTaskTimeFinished(checkIn: Date, checkOut: Date) {
+    if (checkIn && checkOut) {
+       let diffMs = (checkOut.getTime() - checkIn.getTime()); // milliseconds between now & Christmas
+       let diffDays = Math.floor(diffMs / 86400000); // days
+       let diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+       let diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+       return this.addZero(diffHrs)  + 'h ' + this.addZero(diffMins) + ' m'
+    }
+    else {
+       return 'Aguardando'
+    }
+ }
+ addZero(numero){
+  return numero < 10 ? '0'+numero : String(numero)
+}
 }
